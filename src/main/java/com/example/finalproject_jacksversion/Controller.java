@@ -14,11 +14,11 @@ public class Controller {
     @FXML private RadioButton cactusButton;
     @FXML private RadioButton herbButton;
     @FXML private RadioButton vegetableButton;
-    private Image soilImage;
-    private Image cactusImage;
-    private Image flowerImage;
-    private Image herbImage;
-    private Image vegetableImage;
+    private final Image soilImage;
+    private final Image cactusImage;
+    private final Image flowerImage;
+    private final Image herbImage;
+    private final Image vegetableImage;
 
     public Controller() throws FileNotFoundException {
         soilImage = new Image("file:Pictures/OIP.jfif");
