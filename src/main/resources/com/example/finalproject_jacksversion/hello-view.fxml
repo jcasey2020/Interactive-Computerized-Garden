@@ -13,12 +13,12 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalproject_jacksversion.Controller">
    <top>
-      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <HBox prefHeight="100.0" prefWidth="150.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="pressToPlayButton" mnemonicParsing="false" onAction="#initializeGarden" text="Press to Play!" />
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <VBox prefHeight="200.0" prefWidth="110.0">
                <children>
-                  <TextField editable="false" text="Select Plant Type" />
+                  <TextField editable="false" prefHeight="25.0" prefWidth="125.0" text="Select Plant Type" />
                   <RadioButton fx:id="flowerButton" mnemonicParsing="false" selected="true" text="Flower">
                      <toggleGroup>
                         <ToggleGroup fx:id="plantType" />

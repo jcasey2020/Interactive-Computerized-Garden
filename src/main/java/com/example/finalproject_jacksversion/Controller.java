@@ -87,6 +87,8 @@ public class Controller {
         imageView.setFitWidth(25);
         imageView.setImage(cactusImage);
         gardenGrid.add(imageView, col, row);
+        Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col);
+        Plant.plantsList.add(cactus);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
@@ -95,6 +97,8 @@ public class Controller {
         imageView.setFitWidth(25);
         imageView.setImage(herbImage);
         gardenGrid.add(imageView, col, row);
+        Herb herb = new Herb("Flower1", "Pink Rose", 1, "Pink", 2, "Rosemary", row, col);
+        Plant.plantsList.add(herb);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
@@ -103,6 +107,8 @@ public class Controller {
         imageView.setFitWidth(25);
         imageView.setImage(vegetableImage);
         gardenGrid.add(imageView, col, row);
+        Vegetable vegetable = new Vegetable(row, col);
+        Plant.plantsList.add(vegetable);
     }
 
 }
