@@ -88,9 +88,7 @@ public class Controller {
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) {
-            return;
-        }
+        if (occupiedCells.contains(cell)) { return; }
         HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
         ImageView plantView = new ImageView();
         plantView.setFitHeight(25);
@@ -103,26 +101,32 @@ public class Controller {
     }
 
 
-
-
     public void plantCactus(int row, int col) throws FileNotFoundException {
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-        imageView.setImage(cactusImage);
-        gardenGrid.add(imageView, col, row);
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(cactusImage);
+        imageBox.getChildren().add(plantView);
         Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col);
         Plant.plantsList.add(cactus);
+        occupiedCells.add(cell);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-        imageView.setImage(herbImage);
-        gardenGrid.add(imageView, col, row);
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(herbImage);
+        imageBox.getChildren().add(plantView);
         Herb herb = new Herb("Flower1", "Pink Rose", 1, "Pink", 2, "Rosemary", row, col);
         Plant.plantsList.add(herb);
+        occupiedCells.add(cell);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
