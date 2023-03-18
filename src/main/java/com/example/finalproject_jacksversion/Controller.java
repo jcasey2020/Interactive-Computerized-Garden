@@ -6,7 +6,11 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
 import java.io.FileNotFoundException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Controller {
     @FXML private GridPane gardenGrid;
@@ -14,11 +18,13 @@ public class Controller {
     @FXML private RadioButton cactusButton;
     @FXML private RadioButton herbButton;
     @FXML private RadioButton vegetableButton;
+    @FXML private HBox imageBox = new HBox();
     private final Image soilImage;
     private final Image cactusImage;
     private final Image flowerImage;
     private final Image herbImage;
     private final Image vegetableImage;
+    private Set<String> occupiedCells = new HashSet<>();
 
     public Controller() throws FileNotFoundException {
         soilImage = new Image("file:Pictures/OIP.jfif");
@@ -29,20 +35,24 @@ public class Controller {
     }
 
 
+
     @FXML
     public void initializeGarden() throws FileNotFoundException {
         int rows = gardenGrid.getRowCount();
         int cols = gardenGrid.getColumnCount();
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
-                ImageView imageView = new ImageView();
-                imageView.setFitHeight(25);
-                imageView.setFitWidth(25);
-                imageView.setImage(soilImage);
-                gardenGrid.add(imageView, row, col);
+                HBox imageBox = new HBox();
+                ImageView soilView = new ImageView();
+                soilView.setFitHeight(25);
+                soilView.setFitWidth(25);
+                soilView.setImage(soilImage);
+                imageBox.getChildren().add(soilView);
+                gardenGrid.add(imageBox, row, col);
             }
         }
     }
+
 
     @FXML
     public void plantPlants() {
@@ -71,15 +81,23 @@ public class Controller {
     }
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-        imageView.setImage(flowerImage);
-        gardenGrid.add(imageView, col, row);
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) {
+            return;
+        }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(flowerImage);
+        imageBox.getChildren().add(plantView);
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col);
         Plant.plantsList.add(flower);
-
+        occupiedCells.add(cell);
     }
+
+
+
 
     public void plantCactus(int row, int col) throws FileNotFoundException {
         ImageView imageView = new ImageView();

@@ -61,6 +61,14 @@ public class Plant {
     public void setGrowthRate(int growthRate) { this.growthRate = growthRate; }
 
 
+
+    public int getRow() { return this.row; }
+    public int getCol() {return this.col; }
+
+
+}
+
+
    /* public Plant(String name, String species, String color, int size, int growthRate){
         this.name = name;
         this.species = species;
@@ -114,4 +122,4 @@ public class Plant {
     }
 
     */
-}
+
