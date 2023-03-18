@@ -29,7 +29,7 @@
                   <RadioButton fx:id="cactusButton" mnemonicParsing="false" selected="true" text="Cactus" toggleGroup="$plantType" />
                </children>
             </VBox>
-            <Button fx:id="pestControl" mnemonicParsing="false" text="PestControl" />
+            <Button fx:id="pestControl" mnemonicParsing="false" onAction="#pestControl" text="PestControl" />
          </children>
       </HBox>
    </top>
