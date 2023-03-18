@@ -25,7 +25,9 @@ public class Controller {
     private final Image flowerImage;
     private final Image herbImage;
     private final Image vegetableImage;
-    private Set<String> occupiedCells = new HashSet<>();
+    private final Image beeImage;
+    public static Set<String> occupiedCells = new HashSet<>();
+    public static Set<String> occupiedFlowerCells = new HashSet<>();
 
     public Controller() throws FileNotFoundException {
         soilImage = new Image("file:Pictures/OIP.jfif");
@@ -33,6 +35,7 @@ public class Controller {
         cactusImage = new Image("file:Pictures/R.png");
         herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
         vegetableImage = new Image("file:Pictures/Tomato.png");
+        beeImage = new Image("file:Bee.png");
     }
 
 
@@ -97,6 +100,7 @@ public class Controller {
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col);
         Plant.plantsList.add(flower);
         occupiedCells.add(cell);
+        occupiedFlowerCells.add(cell);
     }
 
 
@@ -141,7 +145,20 @@ public class Controller {
         Plant.plantsList.add(herb);
         occupiedCells.add(cell);
     }
-    
+
+    public void addBees(int row, int col) throws FileNotFoundException {
+        String cell = row + "," + col;
+        if (occupiedFlowerCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView beeView = new ImageView();
+        beeView.setFitHeight(25);
+        beeView.setFitWidth(25);
+        beeView.setImage(beeImage);
+        imageBox.getChildren().add(beeView);
+    }
+
+
+
     //CHECK WITH JACKK!!!!
     public void removeItem(int row, int col) throws FileNotFoundException{
         HBox imageBox = new HBox();
