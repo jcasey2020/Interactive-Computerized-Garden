@@ -3,7 +3,7 @@ package com.example.finalproject_jacksversion;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 
-import static com.example.finalproject_jacksversion.Controller.gardenGrid;
+//import static com.example.finalproject_jacksversion.Controller.gardenGrid;
 import java.util.Random;
 
 public class PestControl {
@@ -11,7 +11,7 @@ public class PestControl {
     // The system has a 50% success rate
 
 
-    public static void killSpiderMite(){
+    /*public static void killSpiderMite(){
 
         for (int i = 0; i<gardenGrid.getRowCount();i++){
             for (int j=0;j<gardenGrid.getColumnCount();j++){
@@ -23,5 +23,5 @@ public class PestControl {
 
             }
         }
-    }
+    }*/
 }

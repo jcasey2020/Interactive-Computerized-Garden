@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Controller {
-    @FXML public static GridPane gardenGrid;
+    @FXML private GridPane gardenGrid;
     @FXML private RadioButton flowerButton;
     @FXML private RadioButton cactusButton;
     @FXML private RadioButton herbButton;
@@ -81,10 +81,10 @@ public class Controller {
             });
         }
     }
-    @FXML
-    public void pestControl(){
-        PestControl.killSpiderMite();
-    }
+//    @FXML
+//    public void pestControl(){
+//        PestControl.killSpiderMite();
+//    }
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
