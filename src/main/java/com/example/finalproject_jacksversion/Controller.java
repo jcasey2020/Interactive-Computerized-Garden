@@ -8,12 +8,13 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
 
 public class Controller {
-    @FXML private GridPane gardenGrid;
+    @FXML public static GridPane gardenGrid;
     @FXML private RadioButton flowerButton;
     @FXML private RadioButton cactusButton;
     @FXML private RadioButton herbButton;
@@ -51,6 +52,7 @@ public class Controller {
                 gardenGrid.add(imageBox, row, col);
             }
         }
+        Timer.setStartTime(); //alex check with team tomorrow, delete if wrong
     }
 
 
@@ -78,6 +80,10 @@ public class Controller {
                 }
             });
         }
+    }
+    @FXML
+    public void pestControl(){
+        PestControl.killSpiderMite();
     }
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
@@ -127,6 +133,17 @@ public class Controller {
         gardenGrid.add(imageView, col, row);
         Vegetable vegetable = new Vegetable(row, col);
         Plant.plantsList.add(vegetable);
+    }
+    
+    //CHECK WITH JACKK!!!!
+    public void removeItem(int row, int col) throws FileNotFoundException{
+        HBox imageBox = new HBox();
+        ImageView soilView = new ImageView();
+        soilView.setFitHeight(25);
+        soilView.setFitWidth(25);
+        soilView.setImage(soilImage);
+        imageBox.getChildren().add(soilView);
+        gardenGrid.add(imageBox, row, col);
     }
 
 }

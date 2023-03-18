@@ -1,5 +1,7 @@
 package com.example.finalproject_jacksversion;
 
+import java.util.ArrayList;
+
 public class Insect extends Plant {
     // Bees, Spider Mites, Snails, Worms, Slugs
     private String species;
@@ -7,6 +9,7 @@ public class Insect extends Plant {
     private boolean canFly;
     private Plant food; // assuming a Plant enumeration has been defined in the Plant class
     private Move moveType;
+    public static ArrayList<Insect> insectsList = new ArrayList<Insect>();
 
     public enum Move { Fly, Crawl, Climb }
 
@@ -18,6 +21,7 @@ public class Insect extends Plant {
         this.color = color;
         this.canFly = canFly;
         this.food = food;
+
     }
     public String getSpecies() { return species; }
     public void setSpecies(String species){
