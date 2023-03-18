@@ -130,13 +130,17 @@ public class Controller {
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
-        ImageView imageView = new ImageView();
-        imageView.setFitHeight(25);
-        imageView.setFitWidth(25);
-        imageView.setImage(vegetableImage);
-        gardenGrid.add(imageView, col, row);
-        Vegetable vegetable = new Vegetable(row, col);
-        Plant.plantsList.add(vegetable);
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(vegetableImage);
+        imageBox.getChildren().add(plantView);
+        Herb herb = new Herb("Flower1", "Pink Rose", 1, "Pink", 2, "Rosemary", row, col);
+        Plant.plantsList.add(herb);
+        occupiedCells.add(cell);
     }
     
     //CHECK WITH JACKK!!!!
