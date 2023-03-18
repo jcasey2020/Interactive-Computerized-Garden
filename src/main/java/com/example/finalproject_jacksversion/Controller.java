@@ -35,7 +35,7 @@ public class Controller {
         cactusImage = new Image("file:Pictures/R.png");
         herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
         vegetableImage = new Image("file:Pictures/Tomato.png");
-        beeImage = new Image("file:Bee.png");
+        beeImage = new Image("file:Pictures/Bee.png");
     }
 
 
