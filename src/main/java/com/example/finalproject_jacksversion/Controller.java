@@ -14,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Controller {
-    @FXML private GridPane gardenGrid;
+    @FXML private static GridPane gardenGrid;
     @FXML private RadioButton flowerButton;
     @FXML private RadioButton cactusButton;
     @FXML private RadioButton herbButton;
@@ -35,7 +35,9 @@ public class Controller {
         vegetableImage = new Image("file:Pictures/Tomato.png");
     }
 
-
+    public static GridPane getGardenGrid() {
+        return gardenGrid;
+    }
 
     @FXML
     public void initializeGarden() throws FileNotFoundException {
