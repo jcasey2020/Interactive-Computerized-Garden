@@ -15,6 +15,7 @@ public class GUIMain extends Application {
         stage.setTitle("Automated Garden");
         stage.setScene(scene);
         stage.show();
+
     }
 
     public static void main(String[] args) {
