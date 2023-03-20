@@ -1,5 +1,8 @@
 package com.example.finalproject_jacksversion;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -7,11 +10,13 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.TimerTask;
 
 public class Controller {
     @FXML private GridPane gardenGrid;
@@ -20,29 +25,21 @@ public class Controller {
     @FXML private RadioButton herbButton;
     @FXML private RadioButton vegetableButton;
     @FXML private HBox imageBox = new HBox();
-    private final Image soilImage;
-    private final Image cactusImage;
-    private final Image flowerImage;
-    private final Image herbImage;
-    private final Image vegetableImage;
-    private final Image beeImage;
+    private static final Image soilImage = new Image("file:Pictures/OIP.jfif");
+    private static final Image cactusImage = new Image("file:Pictures/R.png");
+    private static final Image flowerImage = new Image("file:Pictures/simple-flower-pink-hi.png");
+    private static final Image herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
+    private static final Image vegetableImage = new Image("file:Pictures/Tomato.png");
+    private static final Image beeImage = new Image("file:Pictures/Bee.png");
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
 
-    public Controller() throws FileNotFoundException {
-        soilImage = new Image("file:Pictures/OIP.jfif");
-        flowerImage = new Image("file:Pictures/simple-flower-pink-hi.png");
-        cactusImage = new Image("file:Pictures/R.png");
-        herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
-        vegetableImage = new Image("file:Pictures/Tomato.png");
-        beeImage = new Image("file:Pictures/Bee.png");
-    }
 
 
     @FXML
     public void initializeGarden() throws FileNotFoundException {
-        int rows = gardenGrid.getRowCount();
-        int cols = gardenGrid.getColumnCount();
+        int rows = gardenGrid.getRowCount() + 1;
+        int cols = gardenGrid.getColumnCount() + 1;
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {
                 HBox imageBox = new HBox();
@@ -146,16 +143,42 @@ public class Controller {
         occupiedCells.add(cell);
     }
 
-    public void addBees(int row, int col) throws FileNotFoundException {
-        String cell = row + "," + col;
-        if (occupiedFlowerCells.contains(cell)) { return; }
-        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-        ImageView beeView = new ImageView();
-        beeView.setFitHeight(25);
-        beeView.setFitWidth(25);
-        beeView.setImage(beeImage);
-        imageBox.getChildren().add(beeView);
+
+
+    private Timeline timeline;
+
+    @FXML
+    public void initialize() {
+        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
+            addBeesToCells();
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
     }
+
+    private Set<String> occupiedBeeCells = new HashSet<>();
+
+    public void addBeesToCells() {
+        for (Node node : gardenGrid.getChildren()) {
+            Integer row = GridPane.getRowIndex(node);
+            Integer col = GridPane.getColumnIndex(node);
+            //if (row != null && col != null) {
+                String cell = row + "," + col;
+                if (occupiedFlowerCells.contains(cell) && !occupiedBeeCells.contains(cell)) {
+                    HBox imageBox = (HBox) node;
+                    ImageView beeView = new ImageView();
+                    beeView.setFitHeight(25);
+                    beeView.setFitWidth(25);
+                    beeView.setImage(beeImage);
+                    imageBox.getChildren().add(beeView);
+                    occupiedBeeCells.add(cell);
+                }
+            //}
+        }
+    }
+
+
+
 
 
 
