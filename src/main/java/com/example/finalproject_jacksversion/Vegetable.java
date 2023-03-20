@@ -1,19 +1,29 @@
 package com.example.finalproject_jacksversion;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
+import java.io.FileNotFoundException;
+
+import static com.example.finalproject_jacksversion.Controller.*;
+
 public class Vegetable extends Plant{
     int water;
     int harvestTime;
     int timesHarvested;
     int wateringFreq;
+    private GridPane gardenGrid;
 
     private int produceVeggie;
-    public Vegetable(int row, int col){
+    public Vegetable(int row, int col, GridPane gardenGrid){
         super(row, col);
         setWateringFreq(1);
         this.harvestTime=3;
         this.timesHarvested=0;
         this.predator=new Snail("Snail","green",false, "vegtable", Insect.Move.Crawl, row, col);//adjust to predator
         produceVeggie=0;
+        this.gardenGrid = gardenGrid;
     }
     public int getHarvestTime(){
         return this.harvestTime;
@@ -35,6 +45,21 @@ public class Vegetable extends Plant{
             timesHarvested++;
         }
     }
+
+    public void plant(int row, int col) throws FileNotFoundException {
+        gardenGrid.getRowCount();
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(vegetableImage);
+        imageBox.getChildren().add(plantView);
+        occupiedCells.add(cell);
+    }
+
+
 }
     /*
     private String type;

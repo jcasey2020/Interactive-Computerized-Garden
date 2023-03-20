@@ -2,21 +2,20 @@ package com.example.finalproject_jacksversion;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.TimerTask;
 
 public class Controller {
     @FXML private GridPane gardenGrid;
@@ -26,14 +25,15 @@ public class Controller {
     @FXML private RadioButton vegetableButton;
     @FXML private HBox imageBox = new HBox();
     private static final Image soilImage = new Image("file:Pictures/OIP.jfif");
-    private static final Image cactusImage = new Image("file:Pictures/R.png");
-    private static final Image flowerImage = new Image("file:Pictures/simple-flower-pink-hi.png");
-    private static final Image herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
-    private static final Image vegetableImage = new Image("file:Pictures/Tomato.png");
+    public static final Image cactusImage = new Image("file:Pictures/R.png");
+    public static final Image flowerImage = new Image("file:Pictures/simple-flower-pink-hi.png");
+    public static final Image herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
+    public static final Image vegetableImage = new Image("file:Pictures/Tomato.png");
     private static final Image beeImage = new Image("file:Pictures/Bee.png");
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
-
+    private Set<String> occupiedBeeCells = new HashSet<>();
+    private Timeline timeline;
 
 
     @FXML
@@ -57,95 +57,57 @@ public class Controller {
 
     @FXML
     public void plantPlants() {
-        for (Node node : gardenGrid.getChildren()) {
-            node.setOnMouseClicked(event -> {
-                int row = GridPane.getRowIndex(node);
-                int col = GridPane.getColumnIndex(node);
-                try {
-                        if (flowerButton.isSelected()) {
-                            plantFlower(row, col);
-                        }
-                        if (cactusButton.isSelected()) {
-                            plantCactus(row, col);
-                        }
-                        if (herbButton.isSelected()) {
-                            plantHerb(row, col);
-                        }
-                        if (vegetableButton.isSelected()) {
-                            plantVegetable(row, col);
-                        }
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
+        EventHandler<MouseEvent> plantHandler = event -> {
+            Node node = (Node) event.getSource();
+            int row = GridPane.getRowIndex(node);
+            int col = GridPane.getColumnIndex(node);
+            try {
+                if (flowerButton.isSelected()) {
+                    plantFlower(row, col);
                 }
-            });
+                if (cactusButton.isSelected()) {
+                    plantCactus(row, col);
+                }
+                if (herbButton.isSelected()) {
+                    plantHerb(row, col);
+                }
+                if (vegetableButton.isSelected()) {
+                    plantVegetable(row, col);
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        };
+        for (Node node : gardenGrid.getChildren()) {
+            node.setOnMouseClicked(plantHandler);
         }
     }
-//    @FXML
-//    public void pestControl(){
-//        PestControl.killSpiderMite();
-//    }
+
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
-        String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) { return; }
-        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-        ImageView plantView = new ImageView();
-        plantView.setFitHeight(25);
-        plantView.setFitWidth(25);
-        plantView.setImage(flowerImage);
-        imageBox.getChildren().add(plantView);
-        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col);
+        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
+        flower.plant(row, col);
         Plant.plantsList.add(flower);
-        occupiedCells.add(cell);
-        occupiedFlowerCells.add(cell);
     }
 
 
     public void plantCactus(int row, int col) throws FileNotFoundException {
-        String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) { return; }
-        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-        ImageView plantView = new ImageView();
-        plantView.setFitHeight(25);
-        plantView.setFitWidth(25);
-        plantView.setImage(cactusImage);
-        imageBox.getChildren().add(plantView);
-        Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col);
+        Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
+        cactus.plant(row, col);
         Plant.plantsList.add(cactus);
-        occupiedCells.add(cell);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
-        String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) { return; }
-        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-        ImageView plantView = new ImageView();
-        plantView.setFitHeight(25);
-        plantView.setFitWidth(25);
-        plantView.setImage(herbImage);
-        imageBox.getChildren().add(plantView);
-        Herb herb = new Herb("Flower1", "Pink Rose", 1, "Pink", 2, "Rosemary", row, col);
+        Herb herb = new Herb("sdfdsf", "sfd", 10, "red", 10, "reedsfdsr", row, col, gardenGrid);
+        herb.plant(row, col);
         Plant.plantsList.add(herb);
-        occupiedCells.add(cell);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
-        String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) { return; }
-        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-        ImageView plantView = new ImageView();
-        plantView.setFitHeight(25);
-        plantView.setFitWidth(25);
-        plantView.setImage(vegetableImage);
-        imageBox.getChildren().add(plantView);
-        Herb herb = new Herb("Flower1", "Pink Rose", 1, "Pink", 2, "Rosemary", row, col);
-        Plant.plantsList.add(herb);
-        occupiedCells.add(cell);
+        Vegetable vegetable = new Vegetable(row, col, gardenGrid);
+        vegetable.plant(row, col);
+        Plant.plantsList.add(vegetable);
     }
-
-
-
-    private Timeline timeline;
 
     @FXML
     public void initialize() {
@@ -156,24 +118,20 @@ public class Controller {
         timeline.play();
     }
 
-    private Set<String> occupiedBeeCells = new HashSet<>();
-
     public void addBeesToCells() {
-        for (Node node : gardenGrid.getChildren()) {
-            Integer row = GridPane.getRowIndex(node);
-            Integer col = GridPane.getColumnIndex(node);
-            //if (row != null && col != null) {
-                String cell = row + "," + col;
-                if (occupiedFlowerCells.contains(cell) && !occupiedBeeCells.contains(cell)) {
-                    HBox imageBox = (HBox) node;
-                    ImageView beeView = new ImageView();
-                    beeView.setFitHeight(25);
-                    beeView.setFitWidth(25);
-                    beeView.setImage(beeImage);
-                    imageBox.getChildren().add(beeView);
-                    occupiedBeeCells.add(cell);
-                }
-            //}
+        for (String cell: occupiedFlowerCells) {
+            if (!occupiedBeeCells.contains(cell)) {
+                String[] parts = cell.split(",");
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
+                HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));;
+                ImageView beeView = new ImageView();
+                beeView.setFitHeight(25);
+                beeView.setFitWidth(25);
+                beeView.setImage(beeImage);
+                imageBox.getChildren().add(beeView);
+                occupiedBeeCells.add(cell);
+            }
         }
     }
 
