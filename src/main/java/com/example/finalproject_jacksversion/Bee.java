@@ -1,8 +1,16 @@
 package com.example.finalproject_jacksversion;
 
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+
+import static com.example.finalproject_jacksversion.Controller.*;
+
+
 public class Bee extends Insect {
     private String plantType;
     private Insect.Move moveType = Insect.Move.Fly;
+    private GridPane gardenGrid;
 
     public Bee(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col) {
         super(row, col);
@@ -22,4 +30,22 @@ public class Bee extends Insect {
         System.out.println("The bee is pollinating a " + plantType + " flower.");
         // Pollination code goes here
     }
+
+    public void addBeesToFlowers() {
+        for (String cell: occupiedFlowerCells) {
+            if (!occupiedBeeCells.contains(cell)) {
+                String[] parts = cell.split(",");
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
+                HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));;
+                ImageView beeView = new ImageView();
+                beeView.setFitHeight(25);
+                beeView.setFitWidth(25);
+                beeView.setImage(beeImage);
+                imageBox.getChildren().add(beeView);
+                occupiedBeeCells.add(cell);
+            }
+        }
+    }
+
 }

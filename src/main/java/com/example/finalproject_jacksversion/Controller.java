@@ -29,11 +29,13 @@ public class Controller {
     public static final Image flowerImage = new Image("file:Pictures/simple-flower-pink-hi.png");
     public static final Image herbImage = new Image("file:Pictures/clipart-leaves-tulsi-leaf-2.png");
     public static final Image vegetableImage = new Image("file:Pictures/Tomato.png");
-    private static final Image beeImage = new Image("file:Pictures/Bee.png");
+    public static final Image beeImage = new Image("file:Pictures/Bee.png");
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
-    private Set<String> occupiedBeeCells = new HashSet<>();
+    public static Set<String> occupiedBeeCells = new HashSet<>();
     private Timeline timeline;
+    @FXML private Label userInfoLabel;
+    private int day = 2;
 
 
     @FXML
@@ -49,6 +51,7 @@ public class Controller {
                 soilView.setImage(soilImage);
                 imageBox.getChildren().add(soilView);
                 gardenGrid.add(imageBox, row, col);
+                userInfoLabel.setText("Today is Day 1");
             }
         }
         Timer.setStartTime(); //alex check with team tomorrow, delete if wrong
@@ -109,7 +112,8 @@ public class Controller {
         Plant.plantsList.add(vegetable);
     }
 
-    @FXML
+    /*
+   @FXML
     public void initialize() {
         timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
             addBeesToCells();
@@ -117,6 +121,10 @@ public class Controller {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }
+
+     */
+
+
 
     public void addBeesToCells() {
         for (String cell: occupiedFlowerCells) {
@@ -134,6 +142,15 @@ public class Controller {
             }
         }
     }
+
+
+
+    public void iterateDay() {
+        userInfoLabel.setText("Today is Day " + day);
+        day++;
+        addBeesToCells();
+    }
+
 
 
 

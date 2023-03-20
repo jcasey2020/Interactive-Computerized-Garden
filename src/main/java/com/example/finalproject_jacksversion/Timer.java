@@ -14,4 +14,23 @@ public class Timer {
     }
 
 
+    public static void runEveryTenSeconds(Runnable task) {
+        new Thread(() -> {
+            while (true) {
+                long currentTime = getCurrentTime();
+                long nextExecutionTime = (currentTime / 10 + 1) * 10;
+                long sleepTime = (nextExecutionTime - currentTime) * 1000;
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e) {
+                    // Thread interrupted
+                    break;
+                }
+                task.run();
+            }
+        }).start();
+    }
+
+
+
 }
