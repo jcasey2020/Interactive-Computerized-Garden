@@ -31,21 +31,6 @@ public class Bee extends Insect {
         // Pollination code goes here
     }
 
-    public void addBeesToFlowers() {
-        for (String cell: occupiedFlowerCells) {
-            if (!occupiedBeeCells.contains(cell)) {
-                String[] parts = cell.split(",");
-                int row = Integer.parseInt(parts[0]);
-                int col = Integer.parseInt(parts[1]);
-                HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));;
-                ImageView beeView = new ImageView();
-                beeView.setFitHeight(25);
-                beeView.setFitWidth(25);
-                beeView.setImage(beeImage);
-                imageBox.getChildren().add(beeView);
-                occupiedBeeCells.add(cell);
-            }
-        }
-    }
+
 
 }
