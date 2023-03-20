@@ -15,6 +15,7 @@ import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 public class Controller {
@@ -112,23 +113,11 @@ public class Controller {
         Plant.plantsList.add(vegetable);
     }
 
-    /*
-   @FXML
-    public void initialize() {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
-            addBeesToCells();
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-
-     */
-
-
-
     public void addBeesToCells() {
         for (String cell: occupiedFlowerCells) {
-            if (!occupiedBeeCells.contains(cell)) {
+            Random random = new Random();
+            int num = random.nextInt(2);
+            if (!occupiedBeeCells.contains(cell) && num == 1) {
                 String[] parts = cell.split(",");
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
@@ -149,6 +138,7 @@ public class Controller {
         userInfoLabel.setText("Today is Day " + day);
         day++;
         addBeesToCells();
+
     }
 
 
