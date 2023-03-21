@@ -11,6 +11,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,6 +30,8 @@ public class Controller {
     private GridPane gardenGrid;
     @FXML
     private GridPane weatherGrid;
+    @FXML
+    private Pane imagePane;
     @FXML
     private RadioButton flowerButton;
     @FXML
@@ -50,12 +53,23 @@ public class Controller {
     private final Image sunImage = new Image("file:Pictures/sunshine.png");
     private final Image waterImage = new Image("file:Pictures/water.jpg");
     private final Image sunWaterImage = new Image("file:Pictures/heatWater.png");
+    private final Image sunnyGardenImage= new Image("file:Pictures/sunnyGarden.jpg");
+    private final Image cloudyGardenImage = new Image("file:Pictures/cloudyGarden.jpg");
+    private final Image rainyGardenImage = new Image("file:Pictures/rainyGarden.jpg");
+
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
     public static Set<String> occupiedBeeCells = new HashSet<>();
     private Timeline timeline;
     @FXML
     private Label userInfoLabel;
+
+    @FXML
+    private Label label2;
+    @FXML
+    private Label systemLabel;
+
+
     public static int day = 2;
     public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
     private Log log;
@@ -71,9 +85,6 @@ public class Controller {
 
     //public static final Logger logger = Logger.getLogger(Controller.class.getName());
 
-
-
-
     @FXML
     public void initializeGarden() throws FileNotFoundException {
         int rows = gardenGrid.getRowCount() + 1;
@@ -87,10 +98,11 @@ public class Controller {
                 soilView.setImage(soilImage);
                 imageBox.getChildren().add(soilView);
                 gardenGrid.add(imageBox, row, col);
-                userInfoLabel.setText("Today is Day 1");
+                userInfoLabel.setText("   Today is Day 1");
             }
         }
-        Timer.setStartTime(); //alex check with team tomorrow, delete if wrong
+        Timer.setStartTime();//alex check with team tomorrow, delete if wrong
+        chooseWeather();
     }
 
 
@@ -207,7 +219,6 @@ public class Controller {
             //occupiedBeeCells.remove(cell);
             beesToRemove.add(bee);
         }
-
         // remove all bees to be removed from the original collection
         bees.removeAll(beesToRemove);
     }
@@ -237,21 +248,11 @@ public class Controller {
         flowers.removeAll(flowersToRemove);
     }
 
-
-
-
-
-
-
-
-
-
-
-
     public void iterateDay() {
         new Controller();
-        userInfoLabel.setText("Today is Day " + day);
+        userInfoLabel.setText("   Today is Day " + day);
         day++;
+        chooseWeather();
         waterHeatPlant();
         removeBeesFromCells();
         addBeesToCells(flowers);
@@ -292,28 +293,54 @@ public class Controller {
                     rainView.setImage(sunWaterImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
+                    systemLabel.setText("\n\n\nSprinklers ON \n Heater ON");
                 }
                 else if (day % 2 == 0) { //sprinkler system
                     rainView.setFitWidth(40);
                     rainView.setImage(waterImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
+                    systemLabel.setText("\n\n\nSprinklers ON");
                 }
                 else if(day%3==0){ //heat system
                     rainView.setFitWidth(40);
                     rainView.setImage(sunImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
+                    systemLabel.setText("\n\n\nHeater ON");
                 }
                 else{
+                    systemLabel.setText(" ");
                     clearTable();
                 }
             }
         }
     }
-
     public void clearTable() {
         weatherGrid.getChildren().clear();
+    }
+
+    public void chooseWeather(){
+        int randomChoice = (int)(Math.random()*3+1);
+        ImageView weatherView = new ImageView();
+        weatherView.setFitHeight(435);
+        weatherView.setFitWidth(500);
+        if(randomChoice==1) {
+            weatherView.setImage(sunnyGardenImage);
+            imagePane.getChildren().add(weatherView);
+            label2.setText("Today it is sunny in the garden!");
+        }
+        else if(randomChoice==2){
+            weatherView.setImage(rainyGardenImage);
+            imagePane.getChildren().add(weatherView);
+            label2.setText("Today it is rainy in the garden");
+        }
+        else{
+            weatherView.setImage(cloudyGardenImage);
+            imagePane.getChildren().add(weatherView);
+            label2.setText("Today it is cloudy in the garden");
+        }
+
     }
 }
 
