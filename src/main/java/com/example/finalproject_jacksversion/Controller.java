@@ -53,25 +53,16 @@ public class Controller {
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
     public static Set<String> occupiedBeeCells = new HashSet<>();
-    private Timeline timeline;
     @FXML
     private Label userInfoLabel;
-    public static int day = 2;
+    public static int day = 1;
     public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
     private Log log;
 
-    public Controller() {
+    public Controller() throws IOException {
         String logDirectory = "Logs";
-        try {
             this.log = new Log(day, "Logs");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
-
-    //public static final Logger logger = Logger.getLogger(Controller.class.getName());
-
-
 
 
     @FXML
@@ -136,8 +127,7 @@ public class Controller {
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
         flowerImageViewMap.put(flower, plantView);
         flowers.add(flower);
-        //logger.info("A flower has been planted at row " + row + ", column " + col);
-        log.info("A flower has been planted at row " + row + ", column " + col);
+        log.info("Flower planted at row " + row + ", column " + col);
     }
 
 
@@ -145,21 +135,21 @@ public class Controller {
         Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
         cactus.plant(row, col);
         Plant.plantsList.add(cactus);
-        //logger.info("A cactus has been planted at row " + row + ", column " + col);
+        log.info("Cactus planted at row " + row + ", column " + col);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
         Herb herb = new Herb("sdfdsf", "sfd", 10, "red", 10, "reedsfdsr", row, col, gardenGrid);
         herb.plant(row, col);
         Plant.plantsList.add(herb);
-        //logger.info("An herb has been planted at row " + row + ", column " + col);
+        log.info("Herb planted at row " + row + ", column " + col);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
         Vegetable vegetable = new Vegetable(row, col, gardenGrid);
         vegetable.plant(row, col);
         Plant.plantsList.add(vegetable);
-        //logger.info("A vegetable has been planted at row " + row + ", column " + col);
+        log.info("Vegetable planted at row " + row + ", column " + col);
     }
 
     public void addBeesToCells(List<Flower> flowers) {
@@ -176,10 +166,10 @@ public class Controller {
                 beeView.setFitWidth(25);
                 beeView.setImage(beeImage);
                 imageBox.getChildren().add(beeView);
-                //occupiedBeeCells.add(cell);
                 Bee bee = new Bee("Honey Bee", "Yellow", true, "Flower", Insect.Move.Fly, row, col);
                 beeImageViewMap.put(bee, beeView);
                 bees.add(bee);
+                log.info("Bee pollinated flower at row " + row + ", column " + col);
                 for (Flower flower : flowers) {
                     if (flower.getRow() == row && flower.getCol() == col) {
                         flower.setTimeSincePollenated(0);
@@ -191,24 +181,15 @@ public class Controller {
 
     public void removeBeesFromCells() {
         List<Bee> beesToRemove = new ArrayList<>();
-
         for (Bee bee : bees) {
             int col = bee.getCol();
             int row = bee.getRow();
-            String cell = row + "," + col;
             ImageView beeView = beeImageViewMap.get(bee);
-
-            // remove ImageView from grid
             HBox imageBox = (HBox) beeView.getParent();
             imageBox.getChildren().remove(beeView);
-
-            // remove association between Flower object and ImageView
             beeImageViewMap.remove(bee);
-            //occupiedBeeCells.remove(cell);
             beesToRemove.add(bee);
         }
-
-        // remove all bees to be removed from the original collection
         bees.removeAll(beesToRemove);
     }
 
@@ -231,33 +212,22 @@ public class Controller {
                     occupiedCells.remove(cell);
                     occupiedFlowerCells.remove(cell);
                     flowersToRemove.add(flower);
+                    log.info("Flower at row " + row + ", column " + col + " died because it had not been pollinated for two consecutive days.");
                 }
             }
         }
         flowers.removeAll(flowersToRemove);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-    public void iterateDay() {
-        new Controller();
-        userInfoLabel.setText("Today is Day " + day);
+    public void iterateDay() throws IOException {
         day++;
+        log = new Log(day, "Logs");
+        userInfoLabel.setText("Today is Day " + day);
         waterHeatPlant();
         removeBeesFromCells();
         addBeesToCells(flowers);
         die();
         for (Flower flower: flowers) {
-            System.out.println(flower.timeSincePollenated);
             flower.timeSincePollenated++;
         }
 
