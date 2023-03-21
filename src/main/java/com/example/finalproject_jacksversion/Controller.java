@@ -14,7 +14,11 @@ import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
+import java.util.logging.*;
+
+
 
 import static com.example.finalproject_jacksversion.Bee.bees;
 import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
@@ -52,7 +56,22 @@ public class Controller {
     private Timeline timeline;
     @FXML
     private Label userInfoLabel;
-    private int day = 2;
+    public static int day = 2;
+    public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
+    private Log log;
+
+    public Controller() {
+        String logDirectory = "Logs";
+        try {
+            this.log = new Log(day, "Logs");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //public static final Logger logger = Logger.getLogger(Controller.class.getName());
+
+
 
 
     @FXML
@@ -103,38 +122,45 @@ public class Controller {
         }
     }
 
-/*
     public void plantFlower(int row, int col) throws FileNotFoundException {
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) { return; }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(flowerImage);
+        imageBox.getChildren().add(plantView);
+        occupiedCells.add(cell);
+        occupiedFlowerCells.add(cell);
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
-        flower.plant(row, col);
-        Plant.plantsList.add(flower);
+        flowerImageViewMap.put(flower, plantView);
         flowers.add(flower);
+        //logger.info("A flower has been planted at row " + row + ", column " + col);
+        log.info("A flower has been planted at row " + row + ", column " + col);
     }
-
- */
 
 
     public void plantCactus(int row, int col) throws FileNotFoundException {
         Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
         cactus.plant(row, col);
         Plant.plantsList.add(cactus);
+        //logger.info("A cactus has been planted at row " + row + ", column " + col);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
         Herb herb = new Herb("sdfdsf", "sfd", 10, "red", 10, "reedsfdsr", row, col, gardenGrid);
         herb.plant(row, col);
         Plant.plantsList.add(herb);
+        //logger.info("An herb has been planted at row " + row + ", column " + col);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
         Vegetable vegetable = new Vegetable(row, col, gardenGrid);
         vegetable.plant(row, col);
         Plant.plantsList.add(vegetable);
+        //logger.info("A vegetable has been planted at row " + row + ", column " + col);
     }
-
-
-
-    public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
 
     public void addBeesToCells(List<Flower> flowers) {
         for (String cell : occupiedFlowerCells) {
@@ -186,30 +212,6 @@ public class Controller {
         bees.removeAll(beesToRemove);
     }
 
-
-
-
-
-
-
-
-
-public void plantFlower(int row, int col) throws FileNotFoundException {
-    String cell = row + "," + col;
-    if (occupiedCells.contains(cell)) { return; }
-    HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-    ImageView plantView = new ImageView();
-    plantView.setFitHeight(25);
-    plantView.setFitWidth(25);
-    plantView.setImage(flowerImage);
-    imageBox.getChildren().add(plantView);
-    occupiedCells.add(cell);
-    occupiedFlowerCells.add(cell);
-    Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
-    flowerImageViewMap.put(flower, plantView);
-    flowers.add(flower);
-}
-
     public void die() {
         List<Flower> flowersToRemove = new ArrayList<>();
         for (Flower flower : Flower.flowers) {
@@ -247,6 +249,7 @@ public void plantFlower(int row, int col) throws FileNotFoundException {
 
 
     public void iterateDay() {
+        new Controller();
         userInfoLabel.setText("Today is Day " + day);
         day++;
         waterHeatPlant();
