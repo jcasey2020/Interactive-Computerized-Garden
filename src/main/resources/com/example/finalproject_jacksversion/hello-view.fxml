@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalproject_jacksversion.Controller">
     <top>
-        <HBox prefHeight="100.0" prefWidth="150.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="pressToPlayButton" mnemonicParsing="false" onAction="#initializeGarden" style="-fx-background-color: #C7F6B6;" text="Press to Play!">
                <font>
@@ -24,7 +24,7 @@
                </font></Button>
                 <VBox prefHeight="200.0" prefWidth="110.0">
                     <children>
-                        <TextField editable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #E2FAB5;" text="Select Plant Type" />
+                        <TextField editable="false" prefHeight="25.0" prefWidth="125.0" style="-fx-background-color: #7CC3a7;" text="Select Plant Type" />
                         <RadioButton fx:id="flowerButton" mnemonicParsing="false" selected="true" text="Flower">
                             <toggleGroup>
                                 <ToggleGroup fx:id="plantType" />
@@ -73,7 +73,7 @@
         </GridPane>
     </bottom>
     <left>
-        <HBox prefHeight="242.0" prefWidth="862.0" BorderPane.alignment="CENTER">
+        <HBox prefHeight="242.0" prefWidth="862.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDay" prefHeight="25.0" prefWidth="133.0" style="-fx-background-color: #B8E2F2;" text="Move to Next Day!" />
             <Label fx:id="systemLabel" prefHeight="167.0" prefWidth="115.0">
@@ -97,7 +97,7 @@
         </HBox>
     </left>
    <center>
-      <Pane fx:id="imagePane" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <Pane fx:id="imagePane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
          <children>
             <Label fx:id="label2" layoutX="-25.0" layoutY="-51.0" prefHeight="40.0" prefWidth="465.0">
                <font>
