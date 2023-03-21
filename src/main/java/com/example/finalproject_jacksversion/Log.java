@@ -19,8 +19,6 @@ public class Log {
         logger = Logger.getLogger(Controller.class.getName() + "_Day" + day);
         try {
             fileHandler = new FileHandler(logDirectory + "/log_Day" + day + ".txt");
-            System.out.println("Log files written");
-
             logger.addHandler(fileHandler);
             SimpleFormatter formatter = new SimpleFormatter();
             fileHandler.setFormatter(formatter);

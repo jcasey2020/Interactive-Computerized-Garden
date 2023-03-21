@@ -25,6 +25,7 @@ import static com.example.finalproject_jacksversion.Bee.bees;
 import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
 import static com.example.finalproject_jacksversion.Flower.flowers;
 
+
 public class Controller {
     @FXML
     private GridPane gardenGrid;
@@ -56,34 +57,29 @@ public class Controller {
     private final Image sunnyGardenImage= new Image("file:Pictures/sunnyGarden.jpg");
     private final Image cloudyGardenImage = new Image("file:Pictures/cloudyGarden.jpg");
     private final Image rainyGardenImage = new Image("file:Pictures/rainyGarden.jpg");
-
+    private final Image spiderMiteImage = new Image("file:Pictures/SpiderMite.png");
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
     public static Set<String> occupiedBeeCells = new HashSet<>();
+
+    public static ArrayList<String> occupiedSpidermiteCells = new ArrayList<>();
     private Timeline timeline;
+
     @FXML
     private Label userInfoLabel;
-
     @FXML
     private Label label2;
     @FXML
     private Label systemLabel;
 
-
-    public static int day = 2;
+    public static int day = 1;
     public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
     private Log log;
 
-    public Controller() {
+    public Controller() throws IOException {
         String logDirectory = "Logs";
-        try {
-            this.log = new Log(day, "Logs");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        this.log = new Log(day, "Logs");
     }
-
-    //public static final Logger logger = Logger.getLogger(Controller.class.getName());
 
     @FXML
     public void initializeGarden() throws FileNotFoundException {
@@ -103,8 +99,8 @@ public class Controller {
         }
         Timer.setStartTime();//alex check with team tomorrow, delete if wrong
         chooseWeather();
+        Timer.setStartTime();
     }
-
 
     @FXML
     public void plantPlants() {
@@ -136,7 +132,9 @@ public class Controller {
 
     public void plantFlower(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
-        if (occupiedCells.contains(cell)) { return; }
+        if (occupiedCells.contains(cell)) {
+            return;
+        }
         HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
         ImageView plantView = new ImageView();
         plantView.setFitHeight(25);
@@ -148,8 +146,7 @@ public class Controller {
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
         flowerImageViewMap.put(flower, plantView);
         flowers.add(flower);
-        //logger.info("A flower has been planted at row " + row + ", column " + col);
-        log.info("A flower has been planted at row " + row + ", column " + col);
+        log.info("Flower planted at row " + row + ", column " + col);
     }
 
 
@@ -157,21 +154,21 @@ public class Controller {
         Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
         cactus.plant(row, col);
         Plant.plantsList.add(cactus);
-        //logger.info("A cactus has been planted at row " + row + ", column " + col);
+        log.info("Cactus planted at row " + row + ", column " + col);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
         Herb herb = new Herb("sdfdsf", "sfd", 10, "red", 10, "reedsfdsr", row, col, gardenGrid);
         herb.plant(row, col);
         Plant.plantsList.add(herb);
-        //logger.info("An herb has been planted at row " + row + ", column " + col);
+        log.info("Herb planted at row " + row + ", column " + col);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
         Vegetable vegetable = new Vegetable(row, col, gardenGrid);
         vegetable.plant(row, col);
         Plant.plantsList.add(vegetable);
-        //logger.info("A vegetable has been planted at row " + row + ", column " + col);
+        log.info("Vegetable planted at row " + row + ", column " + col);
     }
 
     public void addBeesToCells(List<Flower> flowers) {
@@ -188,10 +185,10 @@ public class Controller {
                 beeView.setFitWidth(25);
                 beeView.setImage(beeImage);
                 imageBox.getChildren().add(beeView);
-                //occupiedBeeCells.add(cell);
                 Bee bee = new Bee("Honey Bee", "Yellow", true, "Flower", Insect.Move.Fly, row, col);
                 beeImageViewMap.put(bee, beeView);
                 bees.add(bee);
+                log.info("Bee pollinated flower at row " + row + ", column " + col);
                 for (Flower flower : flowers) {
                     if (flower.getRow() == row && flower.getCol() == col) {
                         flower.setTimeSincePollenated(0);
@@ -203,25 +200,33 @@ public class Controller {
 
     public void removeBeesFromCells() {
         List<Bee> beesToRemove = new ArrayList<>();
-
         for (Bee bee : bees) {
             int col = bee.getCol();
             int row = bee.getRow();
-            String cell = row + "," + col;
             ImageView beeView = beeImageViewMap.get(bee);
-
-            // remove ImageView from grid
             HBox imageBox = (HBox) beeView.getParent();
             imageBox.getChildren().remove(beeView);
-
-            // remove association between Flower object and ImageView
             beeImageViewMap.remove(bee);
-            //occupiedBeeCells.remove(cell);
             beesToRemove.add(bee);
         }
-        // remove all bees to be removed from the original collection
         bees.removeAll(beesToRemove);
     }
+
+/*public void plantFlower(int row, int col) throws FileNotFoundException {
+    String cell = row + "," + col;
+    if (occupiedCells.contains(cell)) { return; }
+    HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+    ImageView plantView = new ImageView();
+    plantView.setFitHeight(25);
+    plantView.setFitWidth(25);
+    plantView.setImage(flowerImage);
+    imageBox.getChildren().add(plantView);
+    occupiedCells.add(cell);
+    occupiedFlowerCells.add(cell);
+    Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
+    flowerImageViewMap.put(flower, plantView);
+    flowers.add(flower);
+}*/
 
     public void die() {
         List<Flower> flowersToRemove = new ArrayList<>();
@@ -242,42 +247,77 @@ public class Controller {
                     occupiedCells.remove(cell);
                     occupiedFlowerCells.remove(cell);
                     flowersToRemove.add(flower);
+                    log.info("Flower at row " + row + ", column " + col + " died because it had not been pollinated for two consecutive days.");
                 }
             }
         }
         flowers.removeAll(flowersToRemove);
     }
 
-    public void iterateDay() {
-        new Controller();
-        userInfoLabel.setText("   Today is Day " + day);
-        day++;
-        chooseWeather();
-        waterHeatPlant();
-        removeBeesFromCells();
-        addBeesToCells(flowers);
-        die();
-        for (Flower flower: flowers) {
-            System.out.println(flower.timeSincePollenated);
-            flower.timeSincePollenated++;
+        public void iterateDay () throws IOException {
+            day++;
+            log = new Log(day, "Logs");
+            userInfoLabel.setText("Today is Day " + day);
+            waterHeatPlant();
+            chooseWeather();
+            removeBeesFromCells();
+            addBeesToCells(flowers);
+            die();
+            for (Flower flower : flowers) {
+                flower.timeSincePollenated++;
+            }
+            spawnPests();
         }
 
-    }
+        public void spawnPests () {
+            for (String cell : occupiedCells) {
+                Random ran = new Random();
+                int rando = ran.nextInt(2);
 
-    //CHECK WITH JACKK!!!!
-    public void removeItem(int row, int col) throws FileNotFoundException {
-        HBox imageBox = new HBox();
-        ImageView soilView = new ImageView();
-        soilView.setFitHeight(25);
-        soilView.setFitWidth(25);
-        soilView.setImage(soilImage);
-        imageBox.getChildren().add(soilView);
-        gardenGrid.add(imageBox, row, col);
-    }
+                String[] parts = cell.split(",");
+                int row = Integer.parseInt(parts[0]);
+                int col = Integer.parseInt(parts[1]);
 
-    public void pestControl() {
-        PestControl.killSpiderMite();
-    }
+                Collections.sort(occupiedSpidermiteCells);
+                if (!occupiedSpidermiteCells.contains(cell) && day % 2 == 0 && rando == 1) {
+
+                    HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+
+                    ImageView spiderMite = new ImageView();
+                    spiderMite.setFitHeight(25);
+                    spiderMite.setFitWidth(25);
+                    spiderMite.setImage(spiderMiteImage);
+                    imageBox.getChildren().add(spiderMite);
+                    occupiedSpidermiteCells.add(cell);
+                    SpiderMite spidy = new SpiderMite("ABC", "Brown", false, "Vegetable", row, col);
+                    Insect.insectsList.add(spidy);
+                    PestControl.insectViewMap.put(spidy, spiderMite);
+
+                } else if (occupiedSpidermiteCells.contains(cell) && rando == 1) {
+                }
+            }
+        }
+
+        public void pestControl () {
+            for (Insect s : PestControl.insectViewMap.keySet()) {
+                Random ran = new Random();
+                int rando = ran.nextInt(2);
+                if (rando == 1) {
+                    ImageView spiderView = PestControl.insectViewMap.get(s);
+
+                    if (spiderView != null) {
+                        // remove ImageView from grid
+                        HBox imageBox = (HBox) spiderView.getParent();
+                        imageBox.getChildren().remove(spiderView);
+
+                        PestControl.insectViewMap.remove(s);
+                        Insect.insectsList.remove(s);
+                        occupiedSpidermiteCells.remove((s));
+                    }
+                }
+            }
+        }
+
     public void waterHeatPlant() {
         int rows = weatherGrid.getRowCount();
         int cols = weatherGrid.getColumnCount();
@@ -343,4 +383,40 @@ public class Controller {
 
     }
 }
+
+/*
+
+        public void waterHeatPlant () {
+            int rows = weatherGrid.getRowCount();
+            int cols = weatherGrid.getColumnCount();
+            clearTable();
+            for (int row = 0; row < rows; row++) {
+                for (int col = 0; col < cols; col++) {
+                    HBox weatherBox = new HBox();
+                    ImageView rainView = new ImageView();
+                    rainView.setFitHeight(40);
+
+                    if (day % 2 == 0 && day % 3 == 0) { //both heat and sprinkler
+                        rainView.setFitWidth(55);
+                        rainView.setImage(sunWaterImage);
+                        weatherBox.getChildren().add(rainView);
+                        weatherGrid.add(weatherBox, row, col);
+                    } else if (day % 2 == 0) { //sprinkler system
+                        rainView.setFitWidth(40);
+                        rainView.setImage(waterImage);
+                        weatherBox.getChildren().add(rainView);
+                        weatherGrid.add(weatherBox, row, col);
+                    } else if (day % 3 == 0) { //heat system
+                        rainView.setFitWidth(40);
+                        rainView.setImage(sunImage);
+                        weatherBox.getChildren().add(rainView);
+                        weatherGrid.add(weatherBox, row, col);
+                    } else {
+                        clearTable();
+                    }
+                }
+            }
+        }
+
+ */
 
