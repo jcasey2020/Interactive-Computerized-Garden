@@ -1,6 +1,7 @@
 package com.example.finalproject_jacksversion;
 
 import javafx.animation.Timeline;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -13,8 +14,11 @@ import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
+
+import static com.example.finalproject_jacksversion.Bee.bees;
+import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
+import static com.example.finalproject_jacksversion.Flower.flowers;
 
 public class Controller {
     @FXML
@@ -99,12 +103,15 @@ public class Controller {
         }
     }
 
-
+/*
     public void plantFlower(int row, int col) throws FileNotFoundException {
-        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
+        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
         flower.plant(row, col);
         Plant.plantsList.add(flower);
+        flowers.add(flower);
     }
+
+ */
 
 
     public void plantCactus(int row, int col) throws FileNotFoundException {
@@ -125,39 +132,132 @@ public class Controller {
         Plant.plantsList.add(vegetable);
     }
 
-    /*
-   @FXML
-    public void initialize() {
-        timeline = new Timeline(new KeyFrame(Duration.seconds(10), event -> {
-            addBeesToCells();
-        }));
-        timeline.setCycleCount(Timeline.INDEFINITE);
-        timeline.play();
-    }
-     */
 
-    public void addBeesToCells() {
+
+    public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
+
+    public void addBeesToCells(List<Flower> flowers) {
         for (String cell : occupiedFlowerCells) {
-            if (!occupiedBeeCells.contains(cell)) {
+            Random random = new Random();
+            int num = random.nextInt(2);
+            if (num == 1) {
                 String[] parts = cell.split(",");
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
                 HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-                ;
                 ImageView beeView = new ImageView();
                 beeView.setFitHeight(25);
                 beeView.setFitWidth(25);
                 beeView.setImage(beeImage);
                 imageBox.getChildren().add(beeView);
-                occupiedBeeCells.add(cell);
+                //occupiedBeeCells.add(cell);
+                Bee bee = new Bee("Honey Bee", "Yellow", true, "Flower", Insect.Move.Fly, row, col);
+                beeImageViewMap.put(bee, beeView);
+                bees.add(bee);
+                for (Flower flower : flowers) {
+                    if (flower.getRow() == row && flower.getCol() == col) {
+                        flower.setTimeSincePollenated(0);
+                    }
+                }
             }
         }
     }
+
+    public void removeBeesFromCells() {
+        List<Bee> beesToRemove = new ArrayList<>();
+
+        for (Bee bee : bees) {
+            int col = bee.getCol();
+            int row = bee.getRow();
+            String cell = row + "," + col;
+            ImageView beeView = beeImageViewMap.get(bee);
+
+            // remove ImageView from grid
+            HBox imageBox = (HBox) beeView.getParent();
+            imageBox.getChildren().remove(beeView);
+
+            // remove association between Flower object and ImageView
+            beeImageViewMap.remove(bee);
+            //occupiedBeeCells.remove(cell);
+            beesToRemove.add(bee);
+        }
+
+        // remove all bees to be removed from the original collection
+        bees.removeAll(beesToRemove);
+    }
+
+
+
+
+
+
+
+
+
+public void plantFlower(int row, int col) throws FileNotFoundException {
+    String cell = row + "," + col;
+    if (occupiedCells.contains(cell)) { return; }
+    HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+    ImageView plantView = new ImageView();
+    plantView.setFitHeight(25);
+    plantView.setFitWidth(25);
+    plantView.setImage(flowerImage);
+    imageBox.getChildren().add(plantView);
+    occupiedCells.add(cell);
+    occupiedFlowerCells.add(cell);
+    Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
+    flowerImageViewMap.put(flower, plantView);
+    flowers.add(flower);
+}
+
+    public void die() {
+        List<Flower> flowersToRemove = new ArrayList<>();
+        for (Flower flower : Flower.flowers) {
+            if (flower.timeSincePollenated >= 3) {
+                int col = flower.getCol();
+                int row = flower.getRow();
+                String cell = row + "," + col;
+                ImageView flowerView = flowerImageViewMap.get(flower);
+
+                if (flowerView != null) {
+                    // remove ImageView from grid
+                    HBox imageBox = (HBox) flowerView.getParent();
+                    imageBox.getChildren().remove(flowerView);
+
+                    // remove association between Flower object and ImageView
+                    flowerImageViewMap.remove(flower);
+                    occupiedCells.remove(cell);
+                    occupiedFlowerCells.remove(cell);
+                    flowersToRemove.add(flower);
+                }
+            }
+        }
+        flowers.removeAll(flowersToRemove);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     public void iterateDay() {
         userInfoLabel.setText("Today is Day " + day);
         day++;
-        addBeesToCells();
         waterHeatPlant();
+        removeBeesFromCells();
+        addBeesToCells(flowers);
+        die();
+        for (Flower flower: flowers) {
+            System.out.println(flower.timeSincePollenated);
+            flower.timeSincePollenated++;
+        }
+
     }
 
     //CHECK WITH JACKK!!!!

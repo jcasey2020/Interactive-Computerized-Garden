@@ -21,6 +21,8 @@ public class Plant {
         this.alive=true;
         this.age=0;
         this.plantSize=0;
+        this.row = row;
+        this.col = col;
     }
     public int getWateringFreq(){
         return wateringFreq;
