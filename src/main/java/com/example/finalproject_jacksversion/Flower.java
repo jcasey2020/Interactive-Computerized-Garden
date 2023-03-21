@@ -41,7 +41,7 @@ public class Flower extends Plant {
         super.setColor(color);
         super.setGrowthRate(growthRate);
         this.numPetals = numPetals;
-        this.predator=new SpiderMite("SpiderMite", "Black", false, "Flower", Insect.Move.Crawl, row, col);//or whatever we want flower predators to be
+        this.predator=new SpiderMite("SpiderMite", "Black", false, "Flower", row, col);//or whatever we want flower predators to be
         this.gardenGrid = gardenGrid;
         this.timeSincePollenated = timeSincePollenated;
     }

@@ -2,13 +2,13 @@ package com.example.finalproject_jacksversion;
 
 public class SpiderMite extends Insect {
     private String plantFood;
-    private Insect.Move moveType = Insect.Move.Crawl;
+    private Insect.Move moveType;
 
 
-    public SpiderMite(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col) {
+    public SpiderMite(String species, String color, boolean canFly, String plantType, int row, int col) {
         super(row, col);
         this.plantFood = plantType;
-        this.moveType = moveType;
+        moveType = Move.Crawl;
     }
 
     public String getPlantType() {
@@ -23,4 +23,6 @@ public class SpiderMite extends Insect {
         System.out.println("The spider mite is eating a " + plantFood + " plant.");
         // Eating code goes here
     }
+
+
 }
