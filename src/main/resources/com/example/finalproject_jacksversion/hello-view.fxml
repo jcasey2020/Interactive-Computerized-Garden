@@ -35,7 +35,6 @@
                         <RadioButton fx:id="cactusButton" mnemonicParsing="false" selected="true" text="Cactus" toggleGroup="$plantType" />
                     </children>
                 </VBox>
-                <Button fx:id="pestControl" mnemonicParsing="false" onAction="#pestControl" style="-fx-background-color: #FF8886;" text="PestControl" />
                 <Label fx:id="userInfoLabel" prefHeight="56.0" prefWidth="571.0">
                     <font>
                         <Font name="System Bold" size="30.0" />
@@ -44,7 +43,7 @@
         </HBox>
     </top>
     <bottom>
-        <GridPane fx:id="gardenGrid" gridLinesVisible="true" onMouseClicked="#plantPlants" BorderPane.alignment="CENTER">
+        <GridPane fx:id="gardenGrid" gridLinesVisible="true" onMouseClicked="#plantPlants" style="-fx-background-color: #d2b48c;" BorderPane.alignment="CENTER">
             <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                 <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
