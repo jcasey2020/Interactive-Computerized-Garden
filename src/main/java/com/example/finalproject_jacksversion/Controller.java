@@ -349,8 +349,8 @@ public class Controller {
     public void chooseWeather(){
         int randomChoice = (int)(Math.random()*3+1);
         ImageView weatherView = new ImageView();
-        weatherView.setFitHeight(435);
-        weatherView.setFitWidth(500);
+        weatherView.setFitHeight(300);
+        weatherView.setFitWidth(400);
         if(randomChoice==1) {
             weatherView.setImage(sunnyGardenImage);
             imagePane.getChildren().add(weatherView);
