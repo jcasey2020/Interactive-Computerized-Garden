@@ -259,8 +259,7 @@ public class Controller {
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
 
-                Collections.sort(occupiedSpidermiteCells);
-                if (!occupiedFlowerCells.contains(cell) && !occupiedSpidermiteCells.contains(cell) && day % 2 == 0 && rando == 1) {
+                if (!occupiedFlowerCells.contains(cell) && !occupiedSpidermiteCells.contains(cell) && rando == 1) {
 
                     HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
 
@@ -280,9 +279,12 @@ public class Controller {
 
         public void pestControl() {
             List<Insect> insectsToRemove = new ArrayList<>();
+            List<SpiderMite> mitesToRemove = new ArrayList<>();
             for (Insect s : Insect.insectsList) {
                 Random ran = new Random();
                 int rando = ran.nextInt(2);
+
+                String cell = s.getRow() + "," + s.getCol();
                 if (rando == 1) {
                     ImageView spiderView = PestControl.insectViewMap.get(s);
 
@@ -292,12 +294,14 @@ public class Controller {
                         imageBox.getChildren().remove(spiderView);
 
                         insectsToRemove.add(s);
+
                         PestControl.insectViewMap.remove(s);
-                        occupiedSpidermiteCells.remove((s));
+                        occupiedSpidermiteCells.remove(cell);
                     }
                 }
             }
             Insect.insectsList.removeAll(insectsToRemove);
+
         }
     public void waterHeatPlant() {
         int rows = weatherGrid.getRowCount();
