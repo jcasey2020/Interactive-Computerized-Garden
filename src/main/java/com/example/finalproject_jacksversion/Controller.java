@@ -212,22 +212,6 @@ public class Controller {
         bees.removeAll(beesToRemove);
     }
 
-/*public void plantFlower(int row, int col) throws FileNotFoundException {
-    String cell = row + "," + col;
-    if (occupiedCells.contains(cell)) { return; }
-    HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
-    ImageView plantView = new ImageView();
-    plantView.setFitHeight(25);
-    plantView.setFitWidth(25);
-    plantView.setImage(flowerImage);
-    imageBox.getChildren().add(plantView);
-    occupiedCells.add(cell);
-    occupiedFlowerCells.add(cell);
-    Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
-    flowerImageViewMap.put(flower, plantView);
-    flowers.add(flower);
-}*/
-
     public void die() {
         List<Flower> flowersToRemove = new ArrayList<>();
         for (Flower flower : Flower.flowers) {
@@ -267,6 +251,7 @@ public class Controller {
                 flower.timeSincePollenated++;
             }
             spawnPests();
+            pestControl();
         }
 
         public void spawnPests () {
@@ -279,7 +264,7 @@ public class Controller {
                 int col = Integer.parseInt(parts[1]);
 
                 Collections.sort(occupiedSpidermiteCells);
-                if (!occupiedSpidermiteCells.contains(cell) && day % 2 == 0 && rando == 1) {
+                if (!occupiedFlowerCells.contains(cell) && !occupiedSpidermiteCells.contains(cell) && day % 2 == 0 && rando == 1) {
 
                     HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
 
@@ -293,13 +278,13 @@ public class Controller {
                     Insect.insectsList.add(spidy);
                     PestControl.insectViewMap.put(spidy, spiderMite);
 
-                } else if (occupiedSpidermiteCells.contains(cell) && rando == 1) {
                 }
             }
         }
 
-        public void pestControl () {
-            for (Insect s : PestControl.insectViewMap.keySet()) {
+        public void pestControl() {
+            List<Insect> insectsToRemove = new ArrayList<>();
+            for (Insect s : Insect.insectsList) {
                 Random ran = new Random();
                 int rando = ran.nextInt(2);
                 if (rando == 1) {
@@ -310,12 +295,13 @@ public class Controller {
                         HBox imageBox = (HBox) spiderView.getParent();
                         imageBox.getChildren().remove(spiderView);
 
+                        insectsToRemove.add(s);
                         PestControl.insectViewMap.remove(s);
-                        Insect.insectsList.remove(s);
                         occupiedSpidermiteCells.remove((s));
                     }
                 }
             }
+            Insect.insectsList.removeAll(insectsToRemove);
         }
 
     public void waterHeatPlant() {
