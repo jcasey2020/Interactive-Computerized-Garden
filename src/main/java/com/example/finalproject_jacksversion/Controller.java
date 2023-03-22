@@ -16,10 +16,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.*;
 import static com.example.finalproject_jacksversion.Bee.bees;
 //import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
 import static com.example.finalproject_jacksversion.Flower.flowers;
+import static com.example.finalproject_jacksversion.Insect.insectsList;
 import static com.example.finalproject_jacksversion.Plant.plantImageViewMap;
 
 
@@ -287,19 +289,27 @@ public class Controller {
             waterHeatPlant();
             chooseWeather();
             removeBeesFromCells();
+            removePestsFromCell();
             die();
-            addBeesToCells();
+
             for (Flower flower : flowers) {
                 flower.timeSincePollenated++;
             }
-            spawnPests();
+
+            if (!occupiedCells.isEmpty()){
+                addBeesToCells();
+                pests();
+            }
+
+
         }
 
         //creating pest objects and randomly adding them to the grid on plants
-        public void spawnPests () {
+        //if pest object already exists on that cell and it tries to place another pest, instead kill the plant
+        public void pests() {
             List<Plant> plantsToRemove = new ArrayList<>();
             List<String> cellsToRemove = new ArrayList<>();
-            for (String cell : occupiedCells) {
+            for (String cell: occupiedCells) {
                 Random ran = new Random();
                 int rando = ran.nextInt(2);
 
@@ -307,7 +317,7 @@ public class Controller {
                 int row = Integer.parseInt(parts[0]);
                 int col = Integer.parseInt(parts[1]);
 
-                if (!occupiedFlowerCells.contains(cell) && !occupiedSpidermiteCells.contains(cell) && rando == 1) {
+                if (occupiedCells.contains(cell) && !occupiedFlowerCells.contains(cell) && !occupiedSpidermiteCells.contains(cell) && rando == 1) {
 
                     HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
 
@@ -317,52 +327,75 @@ public class Controller {
                     spiderMite.setImage(spiderMiteImage);
                     imageBox.getChildren().add(spiderMite);
                     occupiedSpidermiteCells.add(cell);
-                    SpiderMite spidy = new SpiderMite("ABC", "Brown", false, "Vegetable", row, col);
+                    Insect spidy = new SpiderMite("ABC", "Brown", true, "Vegetable", row, col);
                     Insect.insectsList.add(spidy);
                     PestControl.insectViewMap.put(spidy, spiderMite);
 
-
-                }else if(rando==1){
+                } else if (rando == 1 && occupiedCells.contains(cell) && occupiedSpidermiteCells.contains(cell)) {
+                    //some pests randomly kills plants
                     try {
+                        pestControl();
                         for (Plant p : plantImageViewMap.keySet()) {
-                            ImageView plantView = plantImageViewMap.get(p);
+                            if (p.getClass().getName().equals("Flower")) {
+                                return;
+                            }else{
+                                ImageView plantView = plantImageViewMap.get(p);
 
-                            if (plantView != null && occupiedSpidermiteCells.contains(cell) && occupiedCells.contains(cell)) {
-                                // remove ImageView from grid
-                                HBox imageBox = (HBox) plantView.getParent();
-                                if (imageBox != null) {
+                                if (plantView != null) {
+                                    // remove plant from grid
+                                    HBox imageBox = (HBox) plantView.getParent();
                                     imageBox.getChildren().remove(plantView);
-                                }
 
-                                plantsToRemove.add(p);
-                                cellsToRemove.add(cell);
-                                plantImageViewMap.remove(p);
-                                log.info("Plant at row " + row + ", column " + col + " died because a SpiderMites murder attempt was successful:(");
+                                    plantsToRemove.add(p);
+                                    cellsToRemove.add(cell);
+                                    plantImageViewMap.remove(p);
+
+
+                                    log.info(p.getClass().getName() + " at row " + row + ", column " + col + " died from too many SpiderMites");
+                                }
                             }
                         }
-                    }catch(ConcurrentModificationException c){
-                        //do nothing
+                    } catch (ConcurrentModificationException ignored) {
                     }
-
                 }
             }
-            Plant.plantsList.removeAll(plantsToRemove);
-            cellsToRemove.forEach(occupiedCells::remove);
-            for (Plant p: plantsToRemove){
-                plantImageViewMap.remove(p);
-            }
-            pestControl();
+                //remove plants from lists
+                Plant.plantsList.removeAll(plantsToRemove);
+                for (Plant p : plantsToRemove) {
+                    plantImageViewMap.remove(p);
+
+                }
+                //remove cells that are now empty
+                cellsToRemove.forEach(occupiedCells::remove);
+                occupiedSpidermiteCells.removeAll(cellsToRemove);
+
         }
 
+        public void removePestsFromCell(){
+            List<Insect> mitesToRemove = new ArrayList<>();
+            for (Insect i: insectsList){
+                ImageView miteView = PestControl.insectViewMap.get(i);
+                HBox imageBox = (HBox) miteView.getParent();
+                imageBox.getChildren().remove(miteView);
+                PestControl.insectViewMap.remove(i);
+                mitesToRemove.add(i);
+            }
+            //remove insects from lists
+            Insect.insectsList.removeAll(mitesToRemove);
+
+        }
+
+        //randomly kills pests in the garden per day cycle
+        //     |_> is called in "spawn pests"
         public void pestControl() {
             List<Insect> insectsToRemove = new ArrayList<>();
-            List<SpiderMite> mitesToRemove = new ArrayList<>();
+
             for (Insect s : Insect.insectsList) {
                 Random ran = new Random();
-                int rando = ran.nextInt(2);
+                int rando = ran.nextInt(5);
 
                 String cell = s.getRow() + "," + s.getCol();
-                if (rando == 1) {
+                if (rando != 1) {
                     ImageView spiderView = PestControl.insectViewMap.get(s);
 
                     if (spiderView != null) {
