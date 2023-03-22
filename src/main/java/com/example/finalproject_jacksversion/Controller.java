@@ -78,6 +78,7 @@ public class Controller {
         this.log = new Log(day, "Logs");
     }
 
+    //here we initialize our garden: fill all the cells with soil, set the first weather, and first day
     @FXML
     public void initializeGarden() throws FileNotFoundException {
         int rows = gardenGrid.getRowCount() + 1;
@@ -99,6 +100,7 @@ public class Controller {
         Timer.setStartTime();
     }
 
+    //this is our method to call each plant method depending on which button is selected
     @FXML
     public void plantPlants() {
         EventHandler<MouseEvent> plantHandler = event -> {
@@ -127,6 +129,7 @@ public class Controller {
         }
     }
 
+    //planting a flower; creating flower object and adding it to the gird
     public void plantFlower(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
         if (occupiedCells.contains(cell)) {
@@ -148,6 +151,7 @@ public class Controller {
     }
 
 
+    //planting a cactus; create catus object and add it to the grid
     public void plantCactus(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
         if (occupiedCells.contains(cell)) {
@@ -166,6 +170,7 @@ public class Controller {
         log.info("Cactus planted at row " + row + ", column " + col);
     }
 
+    //planting a herb; create herb object and add it to the grid
     public void plantHerb(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
         if (occupiedCells.contains(cell)) {
@@ -184,6 +189,7 @@ public class Controller {
         log.info("Herb planted at row " + row + ", column " + col);
     }
 
+    //planting a vegetable; create vegetable object and add it to the grid
     public void plantVegetable(int row, int col) throws FileNotFoundException {
         String cell = row + "," + col;
         if (occupiedCells.contains(cell)) {
@@ -202,6 +208,7 @@ public class Controller {
         log.info("Vegetable planted at row " + row + ", column " + col);
     }
 
+    //adding bees to randomly pollinate flowers in the garden
     public void addBeesToCells(List<Flower> flowers) {
         for (String cell : occupiedFlowerCells) {
             Random random = new Random();
@@ -229,6 +236,7 @@ public class Controller {
         }
     }
 
+    //removing bees from grid
     public void removeBeesFromCells() {
         List<Bee> beesToRemove = new ArrayList<>();
         for (Bee bee : bees) {
@@ -243,6 +251,7 @@ public class Controller {
         bees.removeAll(beesToRemove);
     }
 
+    //remove plant object from grid
     public void die() {
         List<Flower> flowersToRemove = new ArrayList<>();
         for (Flower flower : Flower.flowers) {
@@ -269,6 +278,7 @@ public class Controller {
         flowers.removeAll(flowersToRemove);
     }
 
+    //incrementing each day and calling appropriate methods to run each day
         public void iterateDay () throws IOException {
             day++;
             log = new Log(day, "Logs");
@@ -284,6 +294,7 @@ public class Controller {
             spawnPests();
         }
 
+        //creating pest objects and randomly adding them to the grid on plants
         public void spawnPests () {
             List<Plant> plantsToRemove = new ArrayList<>();
             List<String> cellsToRemove = new ArrayList<>();
@@ -368,6 +379,8 @@ public class Controller {
             Insect.insectsList.removeAll(insectsToRemove);
 
         }
+
+        //sprinkler and heating system for garden; automatically waters every 2 days and heats every 3 days
     public void waterHeatPlant() {
         int rows = weatherGrid.getRowCount();
         int cols = weatherGrid.getColumnCount();
@@ -384,6 +397,7 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nSprinklers ON \n Heater ON");
+                    log.info("Sprinkler and heating system ON today");
                 }
                 else if (day % 2 == 0) { //sprinkler system
                     rainView.setFitWidth(40);
@@ -391,6 +405,7 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nSprinklers ON");
+                    log.info("Sprinkler system ON today");
                 }
                 else if(day%3==0){ //heat system
                     rainView.setFitWidth(40);
@@ -398,6 +413,7 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nHeater ON");
+                    log.info("Heating system ON today");
                 }
                 else{
                     systemLabel.setText(" ");
@@ -407,10 +423,12 @@ public class Controller {
         }
     }
 
+    //removing heating and watering images
     public void clearTable() {
         weatherGrid.getChildren().clear();
     }
 
+    //randomly choosing and displaying a weather in the garden each day
     public void chooseWeather(){
         int randomChoice = (int)(Math.random()*3+1);
         ImageView weatherView = new ImageView();
@@ -420,54 +438,20 @@ public class Controller {
             weatherView.setImage(sunnyGardenImage);
             imagePane.getChildren().add(weatherView);
             label2.setText("Today it is sunny in the garden!");
+            log.info("It was sunny in the garden today!");
         }
         else if(randomChoice==2){
             weatherView.setImage(rainyGardenImage);
             imagePane.getChildren().add(weatherView);
             label2.setText("Today it is rainy in the garden");
+            log.info("It was rainy in the garden today");
         }
         else{
             weatherView.setImage(cloudyGardenImage);
             imagePane.getChildren().add(weatherView);
             label2.setText("Today it is cloudy in the garden");
+            log.info("It was cloudy in the garden today");
         }
 
     }
 }
-
-/*
-
-        public void waterHeatPlant () {
-            int rows = weatherGrid.getRowCount();
-            int cols = weatherGrid.getColumnCount();
-            clearTable();
-            for (int row = 0; row < rows; row++) {
-                for (int col = 0; col < cols; col++) {
-                    HBox weatherBox = new HBox();
-                    ImageView rainView = new ImageView();
-                    rainView.setFitHeight(40);
-
-                    if (day % 2 == 0 && day % 3 == 0) { //both heat and sprinkler
-                        rainView.setFitWidth(55);
-                        rainView.setImage(sunWaterImage);
-                        weatherBox.getChildren().add(rainView);
-                        weatherGrid.add(weatherBox, row, col);
-                    } else if (day % 2 == 0) { //sprinkler system
-                        rainView.setFitWidth(40);
-                        rainView.setImage(waterImage);
-                        weatherBox.getChildren().add(rainView);
-                        weatherGrid.add(weatherBox, row, col);
-                    } else if (day % 3 == 0) { //heat system
-                        rainView.setFitWidth(40);
-                        rainView.setImage(sunImage);
-                        weatherBox.getChildren().add(rainView);
-                        weatherGrid.add(weatherBox, row, col);
-                    } else {
-                        clearTable();
-                    }
-                }
-            }
-        }
-
- */
-
