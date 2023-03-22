@@ -397,7 +397,7 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nSprinklers ON \n Heater ON");
-                    log.info("Sprinkler and heating system ON today");
+
                 }
                 else if (day % 2 == 0) { //sprinkler system
                     rainView.setFitWidth(40);
@@ -405,7 +405,6 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nSprinklers ON");
-                    log.info("Sprinkler system ON today");
                 }
                 else if(day%3==0){ //heat system
                     rainView.setFitWidth(40);
@@ -413,13 +412,21 @@ public class Controller {
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
                     systemLabel.setText("\n\n\nHeater ON");
-                    log.info("Heating system ON today");
                 }
                 else{
                     systemLabel.setText(" ");
                     clearTable();
                 }
             }
+        }
+        if(day%2==0 && day%3==0) {
+            log.info("Sprinkler and heating system ON today");
+        }
+        else if (day % 2 == 0) {
+            log.info("Sprinkler system ON today");
+        }
+        else if(day%3==0){
+            log.info("Heating system ON today");
         }
     }
 
