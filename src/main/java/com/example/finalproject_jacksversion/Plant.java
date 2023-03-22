@@ -1,6 +1,10 @@
 package com.example.finalproject_jacksversion;
 
+import javafx.scene.image.ImageView;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Plant {
     private String name;
@@ -13,8 +17,13 @@ public class Plant {
     private int plantSize; //keeps track of how big plant is/number of grow cycles
     Insect predator;
     public static ArrayList<Plant> plantsList = new ArrayList<Plant>();
+    public static final HashMap<Plant, ImageView> plantImageViewMap = new HashMap<>();
     private int row;
     private int col;
+
+
+
+
 
     public Plant(int row, int col){
         this.wateringFreq=2;
@@ -24,6 +33,9 @@ public class Plant {
         this.row = row;
         this.col = col;
     }
+
+    
+
     public int getWateringFreq(){
         return wateringFreq;
     }

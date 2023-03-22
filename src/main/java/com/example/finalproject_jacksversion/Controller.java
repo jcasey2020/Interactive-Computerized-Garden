@@ -18,8 +18,9 @@ import java.io.IOException;
 import java.util.*;
 import java.util.logging.*;
 import static com.example.finalproject_jacksversion.Bee.bees;
-import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
+//import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
 import static com.example.finalproject_jacksversion.Flower.flowers;
+import static com.example.finalproject_jacksversion.Plant.plantImageViewMap;
 
 
 public class Controller {
@@ -140,29 +141,63 @@ public class Controller {
         occupiedCells.add(cell);
         occupiedFlowerCells.add(cell);
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
-        flowerImageViewMap.put(flower, plantView);
+        Plant.plantImageViewMap.put(flower, plantView);
         flowers.add(flower);
+        Plant.plantsList.add(flower);
         log.info("Flower planted at row " + row + ", column " + col);
     }
 
 
     public void plantCactus(int row, int col) throws FileNotFoundException {
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) {
+            return;
+        }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(cactusImage);
+        imageBox.getChildren().add(plantView);
+        occupiedCells.add(cell);
         Cactus cactus = new Cactus("Cactus1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid);
-        cactus.plant(row, col);
+        Plant.plantImageViewMap.put(cactus, plantView);
         Plant.plantsList.add(cactus);
         log.info("Cactus planted at row " + row + ", column " + col);
     }
 
     public void plantHerb(int row, int col) throws FileNotFoundException {
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) {
+            return;
+        }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(herbImage);
+        imageBox.getChildren().add(plantView);
+        occupiedCells.add(cell);
         Herb herb = new Herb("sdfdsf", "sfd", 10, "red", 10, "reedsfdsr", row, col, gardenGrid);
-        herb.plant(row, col);
+        Plant.plantImageViewMap.put(herb, plantView);
         Plant.plantsList.add(herb);
         log.info("Herb planted at row " + row + ", column " + col);
     }
 
     public void plantVegetable(int row, int col) throws FileNotFoundException {
+        String cell = row + "," + col;
+        if (occupiedCells.contains(cell)) {
+            return;
+        }
+        HBox imageBox = (HBox) gardenGrid.getChildren().get(col * gardenGrid.getRowCount() + (row + 1));
+        ImageView plantView = new ImageView();
+        plantView.setFitHeight(25);
+        plantView.setFitWidth(25);
+        plantView.setImage(vegetableImage);
+        imageBox.getChildren().add(plantView);
+        occupiedCells.add(cell);
         Vegetable vegetable = new Vegetable(row, col, gardenGrid);
-        vegetable.plant(row, col);
+        Plant.plantImageViewMap.put(vegetable, plantView);
         Plant.plantsList.add(vegetable);
         log.info("Vegetable planted at row " + row + ", column " + col);
     }
@@ -215,7 +250,7 @@ public class Controller {
                 int col = flower.getCol();
                 int row = flower.getRow();
                 String cell = row + "," + col;
-                ImageView flowerView = flowerImageViewMap.get(flower);
+                ImageView flowerView = Plant.plantImageViewMap.get(flower);
 
                 if (flowerView != null) {
                     // remove ImageView from grid
@@ -223,7 +258,7 @@ public class Controller {
                     imageBox.getChildren().remove(flowerView);
 
                     // remove association between Flower object and ImageView
-                    flowerImageViewMap.remove(flower);
+                    Plant.plantImageViewMap.remove(flower);
                     occupiedCells.remove(cell);
                     occupiedFlowerCells.remove(cell);
                     flowersToRemove.add(flower);
@@ -247,10 +282,11 @@ public class Controller {
                 flower.timeSincePollenated++;
             }
             spawnPests();
-            pestControl();
         }
 
         public void spawnPests () {
+            List<Plant> plantsToRemove = new ArrayList<>();
+            List<String> cellsToRemove = new ArrayList<>();
             for (String cell : occupiedCells) {
                 Random ran = new Random();
                 int rando = ran.nextInt(2);
@@ -273,8 +309,37 @@ public class Controller {
                     Insect.insectsList.add(spidy);
                     PestControl.insectViewMap.put(spidy, spiderMite);
 
+
+                }else if(rando==1){
+                    try {
+                        for (Plant p : plantImageViewMap.keySet()) {
+                            ImageView plantView = plantImageViewMap.get(p);
+
+                            if (plantView != null && occupiedSpidermiteCells.contains(cell) && occupiedCells.contains(cell)) {
+                                // remove ImageView from grid
+                                HBox imageBox = (HBox) plantView.getParent();
+                                if (imageBox != null) {
+                                    imageBox.getChildren().remove(plantView);
+                                }
+
+                                plantsToRemove.add(p);
+                                cellsToRemove.add(cell);
+                                plantImageViewMap.remove(p);
+                                log.info("Plant at row " + row + ", column " + col + " died because a SpiderMites murder attempt was successful:(");
+                            }
+                        }
+                    }catch(ConcurrentModificationException c){
+                        //do nothing
+                    }
+
                 }
             }
+            Plant.plantsList.removeAll(plantsToRemove);
+            cellsToRemove.forEach(occupiedCells::remove);
+            for (Plant p: plantsToRemove){
+                plantImageViewMap.remove(p);
+            }
+            pestControl();
         }
 
         public void pestControl() {
@@ -292,7 +357,7 @@ public class Controller {
                         // remove ImageView from grid
                         HBox imageBox = (HBox) spiderView.getParent();
                         imageBox.getChildren().remove(spiderView);
-
+                        log.info("Pest control wiped out SpiderMite at row " + s.getRow() + ", column " + s.getCol() + ".");
                         insectsToRemove.add(s);
 
                         PestControl.insectViewMap.remove(s);
