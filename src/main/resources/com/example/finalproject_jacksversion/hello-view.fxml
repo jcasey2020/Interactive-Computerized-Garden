@@ -16,7 +16,7 @@
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="642.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.finalproject_jacksversion.Controller">
     <top>
-        <HBox prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
+        <HBox prefHeight="100.0" prefWidth="456.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="pressToPlayButton" mnemonicParsing="false" onAction="#initializeGarden" style="-fx-background-color: #C7F6B6;" text="Press to Play!">
                <font>
@@ -35,10 +35,22 @@
                         <RadioButton fx:id="cactusButton" mnemonicParsing="false" selected="true" text="Cactus" toggleGroup="$plantType" />
                     </children>
                 </VBox>
-                <Label fx:id="userInfoLabel" prefHeight="56.0" prefWidth="571.0">
-                    <font>
-                        <Font name="System Bold" size="30.0" />
-                    </font></Label>
+            <VBox prefHeight="100.0" prefWidth="323.0">
+               <children>
+                      <Label fx:id="userInfoLabel" prefHeight="50.0" prefWidth="389.0">
+                          <font>
+                              <Font name="System Bold" size="30.0" />
+                          </font>
+                  </Label>
+                  <Label fx:id="label2" prefHeight="50.0" prefWidth="351.0">
+                     <font>
+                        <Font name="AppleMyungjo Regular" size="23.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Pane prefHeight="100.0" prefWidth="344.0" style="-fx-background-color: #f1ffc4;" />
+            <Pane fx:id="imagePane" prefHeight="100.0" prefWidth="116.0" />
             </children>
         </HBox>
     </top>
@@ -72,7 +84,7 @@
         </GridPane>
     </bottom>
     <left>
-        <HBox prefHeight="242.0" prefWidth="862.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
+        <HBox prefHeight="242.0" prefWidth="867.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
             <children>
                 <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDay" prefHeight="25.0" prefWidth="133.0" style="-fx-background-color: #B8E2F2;" text="Move to Next Day!" />
             <Label fx:id="systemLabel" prefHeight="167.0" prefWidth="115.0">
@@ -95,14 +107,4 @@
             </children>
         </HBox>
     </left>
-   <center>
-      <Pane fx:id="imagePane" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #f1ffc4;" BorderPane.alignment="CENTER">
-         <children>
-            <Label fx:id="label2" layoutX="-25.0" layoutY="-51.0" prefHeight="40.0" prefWidth="465.0">
-               <font>
-                  <Font name="AppleMyungjo Regular" size="23.0" />
-               </font>
-            </Label>
-         </children></Pane>
-   </center>
 </BorderPane>
