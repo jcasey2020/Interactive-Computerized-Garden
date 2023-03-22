@@ -209,7 +209,7 @@ public class Controller {
     }
 
     //adding bees to randomly pollinate flowers in the garden
-    public void addBeesToCells(List<Flower> flowers) {
+    public void addBeesToCells() {
         for (String cell : occupiedFlowerCells) {
             Random random = new Random();
             int num = random.nextInt(2);
@@ -272,6 +272,7 @@ public class Controller {
                     occupiedFlowerCells.remove(cell);
                     flowersToRemove.add(flower);
                     log.info("Flower at row " + row + ", column " + col + " died because it had not been pollinated for two consecutive days.");
+                    Plant.plantsList.remove(flower);
                 }
             }
         }
@@ -286,8 +287,8 @@ public class Controller {
             waterHeatPlant();
             chooseWeather();
             removeBeesFromCells();
-            addBeesToCells(flowers);
             die();
+            addBeesToCells();
             for (Flower flower : flowers) {
                 flower.timeSincePollenated++;
             }
