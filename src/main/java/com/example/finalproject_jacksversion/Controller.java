@@ -143,12 +143,12 @@ public class Controller {
         plantView.setFitWidth(25);
         plantView.setImage(flowerImage);
         imageBox.getChildren().add(plantView);
-        occupiedCells.add(cell);
+        //occupiedCells.add(cell);
         occupiedFlowerCells.add(cell);
         Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
         Plant.plantImageViewMap.put(flower, plantView);
         flowers.add(flower);
-        Plant.plantsList.add(flower);
+        //Plant.plantsList.add(flower);
         log.info("Flower planted at row " + row + ", column " + col);
     }
 
@@ -247,7 +247,7 @@ public class Controller {
             ImageView beeView = beeImageViewMap.get(bee);
             HBox imageBox = (HBox) beeView.getParent();
             imageBox.getChildren().remove(beeView);
-            beeImageViewMap.remove(bee);
+            beeImageViewMap.remove(bee, beeView);
             beesToRemove.add(bee);
         }
         bees.removeAll(beesToRemove);
@@ -270,16 +270,17 @@ public class Controller {
 
                     // remove association between Flower object and ImageView
                     Plant.plantImageViewMap.remove(flower);
-                    occupiedCells.remove(cell);
-                    occupiedFlowerCells.remove(cell);
+                    //occupiedCells.remove(cell);
+                    occupiedFlowerCells.remove(cell); // add this line to remove the cell from the occupiedFlowerCells list
                     flowersToRemove.add(flower);
                     log.info("Flower at row " + row + ", column " + col + " died because it had not been pollinated for two consecutive days.");
-                    Plant.plantsList.remove(flower);
+                    //Plant.plantsList.remove(flower);
                 }
             }
         }
         flowers.removeAll(flowersToRemove);
     }
+
 
     //incrementing each day and calling appropriate methods to run each day
         public void iterateDay () throws IOException {
