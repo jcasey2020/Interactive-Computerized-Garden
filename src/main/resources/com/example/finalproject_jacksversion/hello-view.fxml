@@ -20,12 +20,13 @@
             <children>
             <VBox prefHeight="341.0" prefWidth="159.0">
                <children>
-                      <Button fx:id="pressToPlayButton" mnemonicParsing="false" onAction="#initializeGarden" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #C7F6B6;" text="Press to Play!">
+                      <Button fx:id="pressToPlayButton" mnemonicParsing="false" onAction="#initializeGarden" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: B8E2F2;" text="Press to Play!">
                      <font>
                         <Font name="Chalkboard SE Light" size="13.0" />
                      </font>
                   </Button>
-                      <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDayWithTimer" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #B8E2F2;" text="Move to Next Day!" />
+                      <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDayWithTimer" prefHeight="26.0" prefWidth="166.0" style="-fx-background-color: #C7F6B6;" text="Start" />
+                  <Button fx:id="finish" mnemonicParsing="false" onAction="#finish" prefHeight="26.0" prefWidth="166.0" style="-fx-background-color: F4C2C2;" text="Finish" />
                         <TextField editable="false" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #7CC3a7;" text="Select Plant Type" />
                       <VBox prefHeight="100.0" prefWidth="159.0">
                           <children>
@@ -53,6 +54,7 @@
                         <Font name="AppleMyungjo Regular" size="23.0" />
                      </font>
                   </Label>
+                  <VBox prefHeight="200.0" prefWidth="100.0" />
                   <Label fx:id="systemLabel" prefHeight="243.0" prefWidth="321.0">
                      <font>
                         <Font size="23.0" />
