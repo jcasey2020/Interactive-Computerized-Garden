@@ -2,7 +2,10 @@ WELCOME TO NAVIDLAND - YOUR OWN PERSONAL AUTOMATED GARDEN:)
 
 **Please read thoroughly before playing
 
-To start:
+
+
+To Begin:
+    Enter full screen mode
     Click "Press to Play" --> top left menu
 
 Plant your garden:
@@ -17,8 +20,10 @@ Plant your garden:
 
     Feel free to change the type of plant as you go!
 
-Start the garden:
+Play game:
     Click "Start"
+    One day = 5 seconds
+    Day will automatically increment
 Exit the garden:
     Click "Finish"
 

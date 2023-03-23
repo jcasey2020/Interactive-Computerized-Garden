@@ -81,6 +81,7 @@ public class Controller{
     public static final Map<SpiderMite, ImageView> pestImageViewMap = new HashMap<>();
     private Log log;
     public Button pressToPlayButton;
+    public Button iterateDayButton;
 
     public Controller() throws IOException {
         String logDirectory = "Logs";
@@ -327,6 +328,7 @@ public class Controller{
         }));
         timeline.setCycleCount(100);
         timeline.play();
+        iterateDayButton.setDisable(true);
     }
 
     public void finish(){
@@ -508,7 +510,7 @@ public class Controller{
     public void clearGarden() {
         gardenGrid.getChildren().clear();
     }
-
+/*
     public void burn() throws FileNotFoundException, InterruptedException {
         ImageView burnView = new ImageView();
         burnView.setFitHeight(330);
@@ -517,7 +519,9 @@ public class Controller{
         imagePane.getChildren().add(burnView);
         label2.setText("YOU BURNED THE GARDEN!");
         log.info("You burned down the garden today");
-        clearGarden();
+
     }
+
+ */
 
 }
