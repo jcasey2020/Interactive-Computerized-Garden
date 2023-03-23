@@ -1,7 +1,14 @@
 package com.example.finalproject_jacksversion;
 
-public class Timer {
-    private static long startTime;
+public class ThreadClass {
+    private Thread t;
+
+    ThreadClass(){}
+
+
+
+
+    /*private static long startTime;
 
 
     public static void setStartTime(){
@@ -29,7 +36,7 @@ public class Timer {
                 task.run();
             }
         }).start();
-    }
+    }*/
 
 
 
