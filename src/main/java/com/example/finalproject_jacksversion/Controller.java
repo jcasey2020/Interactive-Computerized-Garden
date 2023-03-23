@@ -1,7 +1,6 @@
 package com.example.finalproject_jacksversion;
 
 import javafx.animation.Timeline;
-import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -12,12 +11,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import java.io.File;
+
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.*;
+
 import static com.example.finalproject_jacksversion.Bee.bees;
 //import static com.example.finalproject_jacksversion.Flower.flowerImageViewMap;
 import static com.example.finalproject_jacksversion.Flower.flowers;
@@ -97,9 +95,8 @@ public class Controller {
                 userInfoLabel.setText("   Today is Day 1");
             }
         }
-        Timer.setStartTime();//alex check with team tomorrow, delete if wrong
         chooseWeather();
-        Timer.setStartTime();
+
     }
 
     //this is our method to call each plant method depending on which button is selected
@@ -301,8 +298,6 @@ public class Controller {
                 addBeesToCells();
                 pests();
             }
-
-
         }
 
         //creating pest objects and randomly adding them to the grid on plants
