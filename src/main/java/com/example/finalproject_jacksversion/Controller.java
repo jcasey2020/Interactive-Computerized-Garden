@@ -75,6 +75,7 @@ public class Controller {
     public static final Map<Bee, ImageView> beeImageViewMap = new HashMap<>();
     public static final Map<SpiderMite, ImageView> pestImageViewMap = new HashMap<>();
     private Log log;
+    public Button pressToPlayButton;
 
     public Controller() throws IOException {
         String logDirectory = "Logs";
@@ -99,6 +100,7 @@ public class Controller {
             }
         }
         chooseWeather();
+        pressToPlayButton.setDisable(true);
 
     }
 
@@ -253,7 +255,7 @@ public class Controller {
     public void die() {
         List<Flower> flowersToRemove = new ArrayList<>();
         for (Flower flower : Flower.flowers) {
-            if (flower.timeSincePollenated >= 3) {
+            if (flower.timeSincePollenated >= 5) {
                 int col = flower.getCol();
                 int row = flower.getRow();
                 String cell = row + "," + col;
@@ -333,7 +335,7 @@ public class Controller {
         List<Plant> plantsToRemove = new ArrayList<>();
         List<SpiderMite> pestsToRemove = new ArrayList<>();
         for (Plant plant : plantsList) {
-            if (plant.numPests >= 3) {
+            if (plant.numPests >= 5) {
                 int col = plant.getCol();
                 int row = plant.getRow();
                 String cell = row + "," + col;
@@ -369,7 +371,7 @@ public class Controller {
 
         for (SpiderMite spiderMite : pests) {
             Random ran = new Random();
-            int rando = ran.nextInt(5);
+            int rando = ran.nextInt(8);
 
             String cell = spiderMite.getRow() + "," + spiderMite.getCol();
             if (rando != 1) {
