@@ -391,7 +391,7 @@ public class Controller {
 
     }
 
-        //sprinkler and heating system for garden; automatically waters every 2 days and heats every 3 days
+    //sprinkler and heating system for garden; automatically waters every 2 days and heats every 3 days
     public void waterHeatPlant() {
         int rows = weatherGrid.getRowCount();
         int cols = weatherGrid.getColumnCount();
@@ -407,7 +407,7 @@ public class Controller {
                     rainView.setImage(sunWaterImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
-                    systemLabel.setText("\n\n\nSprinklers ON \n Heater ON");
+                    systemLabel.setText("Sprinklers ON \n Heater ON");
 
                 }
                 else if (day % 2 == 0) { //sprinkler system
@@ -415,14 +415,14 @@ public class Controller {
                     rainView.setImage(waterImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
-                    systemLabel.setText("\n\n\nSprinklers ON");
+                    systemLabel.setText("Sprinklers ON");
                 }
                 else if(day%3==0){ //heat system
                     rainView.setFitWidth(40);
                     rainView.setImage(sunImage);
                     weatherBox.getChildren().add(rainView);
                     weatherGrid.add(weatherBox, row, col);
-                    systemLabel.setText("\n\n\nHeater ON");
+                    systemLabel.setText("Heater ON");
                 }
                 else{
                     systemLabel.setText(" ");
@@ -450,8 +450,8 @@ public class Controller {
     public void chooseWeather(){
         int randomChoice = (int)(Math.random()*3+1);
         ImageView weatherView = new ImageView();
-        weatherView.setFitHeight(300);
-        weatherView.setFitWidth(400);
+        weatherView.setFitHeight(330);
+        weatherView.setFitWidth(450);
         if(randomChoice==1) {
             weatherView.setImage(sunnyGardenImage);
             imagePane.getChildren().add(weatherView);

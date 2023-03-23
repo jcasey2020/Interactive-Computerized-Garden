@@ -1,0 +1,4 @@
+Mar 23, 2023 12:15:23 PM com.example.finalproject_jacksversion.Log info
+INFO: Sprinkler system ON today
+Mar 23, 2023 12:15:23 PM com.example.finalproject_jacksversion.Log info
+INFO: It was sunny in the garden today!

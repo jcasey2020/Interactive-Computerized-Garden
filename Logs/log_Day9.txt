@@ -1,0 +1,4 @@
+Mar 23, 2023 12:13:50 PM com.example.finalproject_jacksversion.Log info
+INFO: Heating system ON today
+Mar 23, 2023 12:13:50 PM com.example.finalproject_jacksversion.Log info
+INFO: It was rainy in the garden today

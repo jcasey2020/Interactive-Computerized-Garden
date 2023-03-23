@@ -1,0 +1,2 @@
+Mar 23, 2023 12:15:22 PM com.example.finalproject_jacksversion.Log info
+INFO: It was cloudy in the garden today
