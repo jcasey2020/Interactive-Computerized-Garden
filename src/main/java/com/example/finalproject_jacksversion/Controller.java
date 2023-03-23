@@ -61,6 +61,7 @@ public class Controller{
     private final Image cloudyGardenImage = new Image("file:Pictures/cloudyGarden.jpg");
     private final Image rainyGardenImage = new Image("file:Pictures/rainyGarden.jpg");
     private final Image spiderMiteImage = new Image("file:Pictures/SpiderMite.png");
+    private final Image fireImage = new Image("file:Pictures/Large_bonfire.jpg");
     public static Set<String> occupiedCells = new HashSet<>();
     public static Set<String> occupiedFlowerCells = new HashSet<>();
     public static Set<String> occupiedBeeCells = new HashSet<>();
@@ -500,4 +501,40 @@ public class Controller{
         }
 
     }
+
+    public void clearGarden() {
+        gardenGrid.getChildren().clear();
+    }
+/*
+    public void burn() throws FileNotFoundException, InterruptedException {
+        ImageView burnView = new ImageView();
+        burnView.setFitHeight(330);
+        burnView.setFitWidth(450);
+        burnView.setImage(fireImage);
+        imagePane.getChildren().add(burnView);
+        label2.setText("YOU BURNED THE GARDEN!");
+        log.info("You burned down the garden today");
+        clearGarden();
+
+        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
+            int i = 0;
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                i++;
+            }
+        }));
+        timeline.setCycleCount(100);
+        timeline.play();
+    }
+
+        //Thread.sleep(10000);
+        //initializeGarden();
+    }
+
+ */
 }

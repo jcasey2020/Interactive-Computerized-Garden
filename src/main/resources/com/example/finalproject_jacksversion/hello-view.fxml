@@ -39,6 +39,7 @@
                               <RadioButton fx:id="cactusButton" mnemonicParsing="false" prefHeight="17.0" prefWidth="87.0" selected="true" text="Cactus" toggleGroup="$plantType" />
                           </children>
                       </VBox>
+                  <Button fx:id="burnDownButton" mnemonicParsing="false" onAction="#burn" style="-fx-background-color: red;" text="Burn down Garden!" />
                </children>
             </VBox>
             <VBox prefHeight="100.0" prefWidth="323.0">
