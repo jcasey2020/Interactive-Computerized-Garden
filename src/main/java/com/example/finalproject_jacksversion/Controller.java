@@ -313,7 +313,6 @@ public class Controller{
         }
 
     public void iterateDayWithTimer() throws InterruptedException, IOException {
-
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
             int i = 0;
             @Override
@@ -328,6 +327,10 @@ public class Controller{
         }));
         timeline.setCycleCount(100);
         timeline.play();
+    }
+
+    public void finish(){
+        System.exit(0);
     }
 
     public void addPestsToCells() {
