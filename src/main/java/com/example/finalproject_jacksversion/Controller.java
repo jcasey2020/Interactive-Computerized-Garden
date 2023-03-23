@@ -505,7 +505,7 @@ public class Controller{
     public void clearGarden() {
         gardenGrid.getChildren().clear();
     }
-/*
+
     public void burn() throws FileNotFoundException, InterruptedException {
         ImageView burnView = new ImageView();
         burnView.setFitHeight(330);
@@ -515,26 +515,6 @@ public class Controller{
         label2.setText("YOU BURNED THE GARDEN!");
         log.info("You burned down the garden today");
         clearGarden();
-
-        Timeline timeline2 = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
-            int i = 0;
-            @Override
-            public void handle(ActionEvent event) {
-                try {
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-                i++;
-            }
-        }));
-        timeline.setCycleCount(100);
-        timeline.play();
     }
 
-        //Thread.sleep(10000);
-        //initializeGarden();
-    }
-
- */
 }
