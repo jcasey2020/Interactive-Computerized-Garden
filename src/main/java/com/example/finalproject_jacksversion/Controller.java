@@ -313,7 +313,7 @@ public class Controller{
         }
 
     public void iterateDayWithTimer() throws InterruptedException, IOException {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(15), new EventHandler<>() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
             int i = 0;
             @Override
             public void handle(ActionEvent event) {
