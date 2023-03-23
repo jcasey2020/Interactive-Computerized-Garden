@@ -9,9 +9,10 @@ public class Fruit extends Plant{
     private boolean edible;
     //eg. are the fruits edible yet? yes or no
     public static ArrayList<Fruit> fruits = new ArrayList<>();
+    public int numPests;
 
-    public Fruit(String name, String species, int size, String color, int growthRate, String type, boolean edible, int row, int col){
-        super(row, col);
+    public Fruit(String name, String species, int size, String color, int growthRate, String type, boolean edible, int row, int col, int numPests){
+        super(row, col, numPests);
         super.setName(name);
         super.setSpecies(species);
         super.setPlantSize(size);
@@ -19,6 +20,7 @@ public class Fruit extends Plant{
         super.setGrowthRate(growthRate);
         this.type = type;
         this.edible = edible;
+        this.numPests = numPests;
     }
     public String getType(){
         return this.type;

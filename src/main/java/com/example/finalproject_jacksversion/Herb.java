@@ -16,9 +16,10 @@ public class Herb extends Plant{
     //    type:    willow tree, hibiscus shrub, clingers (type of vine)
     public static ArrayList<Herb> herbs = new ArrayList<>();
     private GridPane gardenGrid;
+    public int numPests;
 
-    public Herb(String name, String species, int size, String color, int growthRate, String type, int row, int col, GridPane gardenGrid){
-        super(row, col);
+    public Herb(String name, String species, int size, String color, int growthRate, String type, int row, int col, GridPane gardenGrid, int numPests){
+        super(row, col, numPests);
         super.setName(name);
         super.setSpecies(species);
         super.setPlantSize(size);
@@ -26,6 +27,7 @@ public class Herb extends Plant{
         super.setGrowthRate(growthRate);
         this.type = type;
         this.gardenGrid = gardenGrid;
+        this.numPests = numPests;
     }
 
     public String getType(){

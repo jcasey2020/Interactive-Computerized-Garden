@@ -4,8 +4,8 @@ public class Worm extends Insect {
     private String plantToFertilize;
     private Insect.Move moveType = Insect.Move.Crawl;
 
-    public Worm(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col) {
-        super(row, col);
+    public Worm(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col, int numPests) {
+        super(row, col, numPests);
         this.plantToFertilize = plantType;
         this.moveType = moveType;
     }

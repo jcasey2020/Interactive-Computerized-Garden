@@ -15,8 +15,8 @@ public class Insect extends Plant {
 
     //public Insect(String species, String color, boolean canFly) {}
 
-    public Insect(int row, int col) {
-        super(row, col);
+    public Insect(int row, int col, int numPests) {
+        super(row, col, numPests);
         this.species = species;
         this.color = color;
         this.canFly = canFly;

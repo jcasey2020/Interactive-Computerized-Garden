@@ -14,16 +14,18 @@ public class Vegetable extends Plant{
     int timesHarvested;
     int wateringFreq;
     private GridPane gardenGrid;
+    public int numPests;
 
     private int produceVeggie;
-    public Vegetable(int row, int col, GridPane gardenGrid){
-        super(row, col);
+    public Vegetable(int row, int col, GridPane gardenGrid, int numPests){
+        super(row, col, numPests);
         setWateringFreq(1);
         this.harvestTime=3;
         this.timesHarvested=0;
-        this.predator=new Snail("Snail","green",false, "vegtable", Insect.Move.Crawl, row, col);//adjust to predator
+        this.predator=new Snail("Snail","green",false, "vegtable", Insect.Move.Crawl, row, col, 0);//adjust to predator
         produceVeggie=0;
         this.gardenGrid = gardenGrid;
+        this.numPests = numPests;
     }
     public int getHarvestTime(){
         return this.harvestTime;

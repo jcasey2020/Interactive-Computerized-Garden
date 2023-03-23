@@ -12,9 +12,10 @@ public class Cactus extends Plant{
     private int numArms;
     public static ArrayList<Cactus> cacti = new ArrayList<>();
     private GridPane gardenGrid;
+    public int numPests;
 
-    public Cactus(String name, String species, int size, String color, int growthRate, int numArms, int row, int col, GridPane gardenGrid){
-        super(row, col);
+    public Cactus(String name, String species, int size, String color, int growthRate, int numArms, int row, int col, GridPane gardenGrid, int numPests){
+        super(row, col, numPests);
         super.setName(name);
         super.setSpecies(species);
         super.setPlantSize(size);
@@ -22,6 +23,7 @@ public class Cactus extends Plant{
         super.setGrowthRate(growthRate);
         this.numArms = numArms;
         this.gardenGrid = gardenGrid;
+        this.numPests = numPests;
     }
 
     public int getNumArms() {

@@ -33,15 +33,15 @@ public class Flower extends Plant {
     public void setTimeSincePollenated(int timeSincePollenated) { this.timeSincePollenated = timeSincePollenated; }
     public int getTimeSincePollenated() { return timeSincePollenated; }
 
-    public Flower(String name, String species, int size, String color, int growthRate, int numPetals, int row, int col, GridPane gardenGrid, int timeSincePollenated){
-        super(row, col);
+    public Flower(String name, String species, int size, String color, int growthRate, int numPetals, int row, int col, GridPane gardenGrid, int timeSincePollenated, int numPests){
+        super(row, col, numPests);
         super.setName(name);
         super.setSpecies(species);
         super.setPlantSize(size);
         super.setColor(color);
         super.setGrowthRate(growthRate);
         this.numPetals = numPetals;
-        this.predator=new SpiderMite("SpiderMite", "Black", false, "Flower", row, col);//or whatever we want flower predators to be
+        this.predator=new SpiderMite("SpiderMite", "Black", false, "Flower", row, col, 0);//or whatever we want flower predators to be
         this.gardenGrid = gardenGrid;
         this.timeSincePollenated = timeSincePollenated;
     }
@@ -68,7 +68,7 @@ public class Flower extends Plant {
         imageBox.getChildren().add(plantView);
         occupiedCells.add(cell);
         occupiedFlowerCells.add(cell);
-        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0);
+        Flower flower = new Flower("Flower1", "Pink Rose", 1, "Pink", 2, 5, row, col, gardenGrid, 0, 0);
         flowerImageViewMap.put(flower, plantView);
     }
 

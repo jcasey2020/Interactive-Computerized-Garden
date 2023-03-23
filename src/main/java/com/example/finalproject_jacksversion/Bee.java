@@ -15,8 +15,8 @@ public class Bee extends Insect {
     private GridPane gardenGrid;
     public static ArrayList<Bee> bees = new ArrayList<>();
 
-    public Bee(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col) {
-        super(row, col);
+    public Bee(String species, String color, boolean canFly, String plantType, Insect.Move moveType, int row, int col, int numPests) {
+        super(row, col, numPests);
         this.plantType = plantType;
         this.moveType = moveType;
     }

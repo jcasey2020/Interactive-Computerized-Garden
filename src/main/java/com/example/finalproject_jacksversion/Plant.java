@@ -21,17 +21,18 @@ public class Plant {
     private int row;
     private int col;
 
+    public int numPests;
 
 
 
-
-    public Plant(int row, int col){
+    public Plant(int row, int col, int numPests){
         this.wateringFreq=2;
         this.alive=true;
         this.age=0;
         this.plantSize=0;
         this.row = row;
         this.col = col;
+        this.numPests = numPests;
     }
 
     
