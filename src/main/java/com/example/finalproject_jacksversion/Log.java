@@ -8,6 +8,9 @@ import java.util.logging.SimpleFormatter;
 
 
 public class Log {
+    public void SimpleFormatter(){
+        String.format("%4$s: %5$s [%1$tc]%n");
+    }
     private final Logger logger;
     private final FileHandler fileHandler;
 
@@ -26,7 +29,6 @@ public class Log {
             throw new RuntimeException(e);
         }
     }
-
 
     public void info(String msg) {
         logger.info(msg);
