@@ -18,4 +18,12 @@ Plant your garden:
     Feel free to change the type of plant as you go!
 
 Start the garden:
-    Click "Run"
+    Click "Move to Next Day"
+
+How the garden works:
+- For Flowers: Bees must pollinate them at least once every 3 days
+    - If a bee has not pollinated it, the flower will die
+
+- For Herbs, Vegetables and Cacti: A pest may spawn on it
+    - Pest Control hasan 75% chance of killing the pest
+    - If Pest Control fails, the Pest will kill the Plant

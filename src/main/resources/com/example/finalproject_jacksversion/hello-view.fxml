@@ -25,7 +25,7 @@
                         <Font name="Chalkboard SE Light" size="13.0" />
                      </font>
                   </Button>
-                      <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDay" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #B8E2F2;" text="Move to Next Day!" />
+                      <Button fx:id="iterateDayButton" mnemonicParsing="false" onAction="#iterateDayWithTimer" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #B8E2F2;" text="Move to Next Day!" />
                         <TextField editable="false" prefHeight="25.0" prefWidth="166.0" style="-fx-background-color: #7CC3a7;" text="Select Plant Type" />
                       <VBox prefHeight="100.0" prefWidth="159.0">
                           <children>

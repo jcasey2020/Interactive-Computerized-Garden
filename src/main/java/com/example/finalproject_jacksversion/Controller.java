@@ -1,6 +1,8 @@
 package com.example.finalproject_jacksversion;
 
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -11,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.util.Duration;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -24,8 +27,9 @@ import static com.example.finalproject_jacksversion.Plant.plantImageViewMap;
 import static com.example.finalproject_jacksversion.Plant.plantsList;
 import static com.example.finalproject_jacksversion.SpiderMite.pests;
 
-
-public class Controller {
+import java.util.Timer;
+import java.util.TimerTask;
+public class Controller{
     @FXML
     private GridPane gardenGrid;
     @FXML
@@ -208,6 +212,7 @@ public class Controller {
 
     //adding bees to randomly pollinate flowers in the garden
     public void addBeesToCells() {
+
         for (String cell : occupiedFlowerCells) {
             Random random = new Random();
             int num = random.nextInt(3);
@@ -280,26 +285,47 @@ public class Controller {
 
     //incrementing each day and calling appropriate methods to run each day
         public void iterateDay () throws IOException {
-            day++;
-            log = new Log(day, "Logs");
+
+                day++;
+
+                log = new Log(day, "Logs");
+
             userInfoLabel.setText("Today is Day " + day);
-            waterHeatPlant();
-            removeBeesFromCells();
-            addBeesToCells();
-            die();
-            //removePestsFromCells();
-            pestControl();
-            pestKillPlant();
-            addPestsToCells();
-            chooseWeather();
-            for (Flower flower : flowers) {
-                flower.timeSincePollenated++;
-            }
-            if (!occupiedCells.isEmpty()){
-                //pests();
-            }
+                waterHeatPlant();
+                removeBeesFromCells();
+                addBeesToCells();
+                die();
+                //removePestsFromCells();
+                pestControl();
+                pestKillPlant();
+                addPestsToCells();
+                chooseWeather();
+                for (Flower flower : flowers) {
+                    flower.timeSincePollenated++;
+                }
+                if (!occupiedCells.isEmpty()){
+                    //pests();
+                }
+
         }
 
+    public void iterateDayWithTimer() throws InterruptedException, IOException {
+
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(5), new EventHandler<>() {
+            int i = 0;
+            @Override
+            public void handle(ActionEvent event) {
+                try {
+                    iterateDay();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                i++;
+            }
+        }));
+        timeline.setCycleCount(100);
+        timeline.play();
+    }
 
     public void addPestsToCells() {
         for (String cell : occupiedCells) {
@@ -455,19 +481,19 @@ public class Controller {
         if(randomChoice==1) {
             weatherView.setImage(sunnyGardenImage);
             imagePane.getChildren().add(weatherView);
-            label2.setText("Today it is sunny in the garden!");
+            label2.setText("Today it is sunny!");
             log.info("It was sunny in the garden today!");
         }
         else if(randomChoice==2){
             weatherView.setImage(rainyGardenImage);
             imagePane.getChildren().add(weatherView);
-            label2.setText("Today it is rainy in the garden");
+            label2.setText("Today it is rainy");
             log.info("It was rainy in the garden today");
         }
         else{
             weatherView.setImage(cloudyGardenImage);
             imagePane.getChildren().add(weatherView);
-            label2.setText("Today it is cloudy in the garden");
+            label2.setText("Today it is cloudy");
             log.info("It was cloudy in the garden today");
         }
 
