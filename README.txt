@@ -18,7 +18,9 @@ Plant your garden:
     Feel free to change the type of plant as you go!
 
 Start the garden:
-    Click "Move to Next Day"
+    Click "Start"
+Exit the garden:
+    Click "Finish"
 
 How the garden works:
 - For Flowers: Bees must pollinate them at least once every 3 days
