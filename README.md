@@ -1,3 +1,4 @@
+# Interactive-Computerized-Garden
 This simulation allows users to create and maintain a virtual garden with various types of plants. The garden includes pests, insects, sensors and weather patterns that either help or harm the plants' health. The user plays the role of the gardener and interacts with the system through a GUI created with JavaFX.
 
 WELCOME TO NAVIDLAND - YOUR OWN PERSONAL AUTOMATED GARDEN
