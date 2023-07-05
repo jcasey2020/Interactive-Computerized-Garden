@@ -12,6 +12,7 @@ To Begin:
     Click "Press to Play" --> top left menu
 
 Plant your garden:
+    
     Select the type of plant you'd like to input: Flower, Herb, Vegetable, or Cactus --> top left menu
 
     Click on any plot in the garden --> lower-half grid
@@ -24,10 +25,13 @@ Plant your garden:
     Feel free to change the type of plant as you go!
 
 Play game:
+    
     Click "Start"
     One day = 5 seconds
     Day will automatically increment
+
 Exit the garden:
+    
     Click "Finish"
 
 How the garden works:
